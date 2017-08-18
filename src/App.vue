@@ -1,7 +1,14 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <header class="header">
+      <nav class="inner">
+        <router-link to="/home">Home</router-link>
+        <router-link to="/survey">Survey</router-link>
+      </nav>
+    </header>
+    <transition name="fade" mode="out-in">
+      <router-view class="view"></router-view>
+    </transition>
   </div>
 </template>
 

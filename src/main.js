@@ -4,6 +4,16 @@ import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import store from "./store";
+import titleMixin from './util/title'
+import * as filters from './util/filters'
+
+// mixin for handling title
+Vue.mixin(titleMixin)
+
+// register global utility filters.
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 Vue.config.productionTip = false;
 console.log(store);

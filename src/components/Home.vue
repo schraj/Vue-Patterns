@@ -1,6 +1,6 @@
 <template>
   <div class='panel-body'>
-    <input type="checkbox" v-model="value" :autocomplete="schema.autocomplete" :disabled="disabled" :name="schema.inputName" />
+    This is the survey.  Click above
   </div>
 </template>
 
@@ -11,12 +11,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      value: false,
-      disabled: false,
-      schema: {
-        autocomplete: false,
-        inputName: "test input name"
-      },
       model: {
         id: 1,
         name: 'John Doe',
