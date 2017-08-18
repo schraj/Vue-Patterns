@@ -10,14 +10,18 @@ export default new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: [
     {
-      path: "/",
+      path: "/home",
       name: "Home",
       component: Home
     },
     {
-      path: "/",
+      path: "/survey",
       name: "Survey",
       component: Survey
+    },
+    {
+      path: "/",
+      redirect: '/home'
     },
   ]
 });
