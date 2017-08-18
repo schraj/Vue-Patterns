@@ -4,4 +4,7 @@ export default {
 
     return id;
   },
+  getSchema(state) {
+    return state.schema;
+  }
 }

@@ -3,7 +3,7 @@ import Config from '../config';
 let apiUrl = Config.useApiStubs ? '/static/apiStubs' : `${Config.baseUrl}/api`;
 
 export const getSchema = () => {
-  const url = Config.useApiStubs ? `${apiUrl}/getJob.json` : `${apiUrl}/getSchema/1`;
+  const url = Config.useApiStubs ? `${apiUrl}/schema.json` : `${apiUrl}/getSchema/1`;
   return get(url);
 };
 

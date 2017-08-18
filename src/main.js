@@ -17,6 +17,7 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false;
 console.log(store);
+store.dispatch('GET_SCHEMA', {})
 
 /* eslint-disable no-new */
 new Vue({

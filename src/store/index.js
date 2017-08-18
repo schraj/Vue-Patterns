@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import config from "../config";
 import actions from "./actions";
 import mutations from "./mutations";
 import getters from "./getters";
@@ -7,7 +8,8 @@ import getters from "./getters";
 Vue.use(Vuex);
 
 const state = {
-  id: 1
+  appId: config.appId,
+  schema: {},
 }
 
 export default new Vuex.Store({
