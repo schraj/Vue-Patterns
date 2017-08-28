@@ -1,6 +1,6 @@
 <template>
   <div class='panel-body'>
-    This is the survey.  Click above
+    This is the survey. Click above
   </div>
 </template>
 
@@ -11,14 +11,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      model: {
-        id: 1,
-        name: 'John Doe',
-        password: 'J0hnD03!x4',
-        skills: ['Javascript', 'VueJS'],
-        email: 'john.doe@gmail.com',
-        status: true,
-      },
     }
   },
   computed: mapGetters({

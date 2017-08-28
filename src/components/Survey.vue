@@ -1,7 +1,7 @@
 <template>
   <div class='panel-body'>
     how many?
-    {{schema}}
+    
   </div>
 </template>
 
@@ -12,8 +12,20 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      localDataId: 1,      
+     model: {             
+      id: 1,
+      name: "John Doe",
+      password: "J0hnD03!x4",
+      skills: ["Javascript", "VueJS"],
+      email: "john.doe@gmail.com",
+      status: true
+    },
+
+    formOptions: {
+        validateAfterLoad: true,
+        validateAfterChanged: true
     }
+   }
   },
   computed: mapGetters({
     id: 'getId',

@@ -4,8 +4,8 @@ import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import store from "./store";
-import titleMixin from './util/title'
-import * as filters from './util/filters'
+import titleMixin from './util/title';
+import * as filters from './util/filters';
 
 // mixin for handling title
 Vue.mixin(titleMixin)

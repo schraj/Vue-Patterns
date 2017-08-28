@@ -21,7 +21,7 @@ exports.cssLoaders = function (options) {
   }
 
   // generate loader string to be used with extract text plugin
-  function generateLoaders (loader, loaderOptions) {
+  function generateLoaders(loader, loaderOptions) {
     var loaders = [cssLoader]
     if (loader) {
       loaders.push({
@@ -39,6 +39,7 @@ exports.cssLoaders = function (options) {
         use: loaders,
         fallback: 'vue-style-loader'
       })
+
     } else {
       return ['vue-style-loader'].concat(loaders)
     }
@@ -49,10 +50,10 @@ exports.cssLoaders = function (options) {
     css: generateLoaders(),
     postcss: generateLoaders(),
     less: generateLoaders('less'),
-    sass: generateLoaders('sass', { indentedSyntax: true }),
-    scss: generateLoaders('sass'),
-    stylus: generateLoaders('stylus'),
-    styl: generateLoaders('stylus')
+    sass: generateLoaders('sass', { indentedSyntax: true, extract: true }),
+    scss: generateLoaders('sass', { extract: true }),
+    stylus: generateLoaders('stylus', { extract: true }),
+    styl: generateLoaders('stylus', { extract: true })
   }
 }
 
