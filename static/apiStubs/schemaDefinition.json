@@ -1,0 +1,151 @@
+{
+    "$schema": "https://hackmd.io/EwIwxgZskJwLQFYAmA2BcAsB2EW7mAA44BTJYLMUECEiAZiA?both",
+    "definitions": {
+        "formObject": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "Globally unique identifier",
+                    "type": "number"
+                },
+                "attributes": {
+                    "description": "All the element's properties",
+                    "type": "array"
+                },
+                "children": {
+                    "description": "An array of other formObjects.",
+                    "type": "array"
+                }
+            }
+        },
+        "validationOptions": {
+            "type": "object",
+            "properties": {
+                "validationFn": {
+                    "description": "A function that accepts a string value, and a formState object and returns either false (valid) or an error message. The formState contains key/value pairs where the key is the element id and the value is the current formatted value of that element.",
+                    "type": "object"
+                },
+                "validatesWith": {
+                    "description": "An array of element ids whose validity may be affected by a change of this element's validity",
+                    "type": "array"
+                }
+            }
+        }
+    },
+    "type": "object",
+    "properties": {
+        "form": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/formObject"
+                },
+                {
+                    "properties": {
+                        "heading": {
+                            "type": "string"
+                        },
+                        "endpoint": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "endpoint",
+                        "children"
+                    ]
+                }
+            ]
+        },
+        "fieldset": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/formObject"
+                },
+                {
+                    "properties": {
+                        "legend": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "legend",
+                        "children"
+                    ]
+                }
+            ]
+        },
+        "textInput": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/formObject"
+                },
+                {
+                    "properties": {
+                        "label": {
+                            "type": "string"
+                        },
+                        "required": {
+                            "type": "boolean"
+                        },
+                        "maxlength": {
+                            "type": "number"
+                        },
+                        "minlength": {
+                            "type": "number"
+                        },
+                        "autocomplete": {
+                            "type": "string",
+                            "enum": [
+                                "off",
+                                "on",
+                                "name",
+                                "given-name",
+                                "additional-name",
+                                "family-name",
+                                "honorific-suffix",
+                                "nickname",
+                                "username",
+                                "organization-title",
+                                "organization",
+                                "bday"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "label"
+                    ]
+                }
+            ]
+        },
+        "dateMemorable": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/formObject"
+                },
+                {
+                    "properties": {
+                        "label": {
+                            "type": "string"
+                        },
+                        "required": {
+                            "type": "boolean"
+                        },
+                        "validationOptions": {
+                            "type": "object",
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/validationOptions"
+                                }
+                            ]
+                        }
+                    },
+                    "required": [
+                        "label"
+                    ]
+                }
+            ]
+        }
+    }
+}
