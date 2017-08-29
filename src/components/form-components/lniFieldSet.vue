@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<label class="field-label">
-			{{ schema.label }}
+			{{ textLabel }}
 		</label>
-		<input :id="getFieldID(schema)" type="schema.inputType" value="value" @input="value=$event.target.value" @change="onChange" />
+		<input id="getFieldID(schema)" type="schema.inputType" value="value" onInput="value = $event.target.value" onChange="onChange" disabled="disabled" />
 	</div>
 </template>
 
@@ -12,11 +12,10 @@ import abstractField from "./abstractField";
 import fecha from "fecha";
 
 export default {
-	props: ['schema'],
-	mixins: [abstractField],
+	props: ['textLabel'],
+	//mixins: [abstractField],
 	methods: {
-		onChange: function(event) {
-			console.log('on change')
+		onChange(event) {
 			if (this.schema.inputType === "file") {
 				this.value = event.target.files;
 			}

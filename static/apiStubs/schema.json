@@ -3,14 +3,14 @@
         "id": 1,
         "children": [
             {
-                "textInput": {
-                    "id": 2,
-                    "label": "test label2"
-                },
-                "textInput": {
-                    "id": 3,
-                    "label": "test label3"
-                }
+                "inputType": "text",
+                "id": 2,
+                "label": "test label2"
+            },
+            {
+                "inputType": "text",
+                "id": 3,
+                "label": "test label3"
             }
         ]
     }

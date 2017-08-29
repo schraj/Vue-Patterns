@@ -5,6 +5,11 @@ export default {
     return id;
   },
   getSchema(state) {
-    return state.schema;
+    if (state.schema && state.schema.formObject) {
+      return state.schema.formObject.children;
+    }
+    else {
+      return [];
+    }
   }
 }

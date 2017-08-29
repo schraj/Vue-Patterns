@@ -1,6 +1,6 @@
 import { get as objGet, each, isFunction, isString, isArray } from "lodash";
-import validators from "../utils/validators";
-import { slugifyFormID } from "../utils/schema";
+import validators from "./utils/validators";
+import schemaUtils from "./utils/schema";
 
 function convertValidator(validator) {
 	if (isString(validator)) {
@@ -68,7 +68,7 @@ export default {
 						this.schema.onChanged.call(this, this.model, newValue, oldValue, this.schema);
 					}
 
-					if (this.$parent.options && this.$parent.options.validateAfterChanged === true){
+					if (this.$parent.options && this.$parent.options.validateAfterChanged === true) {
 						this.validate();
 					}
 				}
@@ -166,7 +166,7 @@ export default {
 
 		getFieldID(schema) {
 			const idPrefix = this.formOptions && this.formOptions.fieldIdPrefix ? this.formOptions.fieldIdPrefix : "";
-			return slugifyFormID(schema, idPrefix);
+			return schemaUtils.slugifyFormID(schema, idPrefix);
 		}
 
 	}

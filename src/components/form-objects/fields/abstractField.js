@@ -68,7 +68,7 @@ export default {
 						this.schema.onChanged.call(this, this.model, newValue, oldValue, this.schema);
 					}
 
-					if (this.$parent.options && this.$parent.options.validateAfterChanged === true){
+					if (this.$parent.options && this.$parent.options.validateAfterChanged === true) {
 						this.validate();
 					}
 				}
@@ -166,6 +166,7 @@ export default {
 
 		getFieldID(schema) {
 			const idPrefix = this.formOptions && this.formOptions.fieldIdPrefix ? this.formOptions.fieldIdPrefix : "";
+			console.log('abstract field:slugify')
 			return slugifyFormID(schema, idPrefix);
 		}
 
