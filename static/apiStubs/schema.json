@@ -8,28 +8,43 @@
                 "label": "ID",
                 "model": "id",
                 "readonly": true,
-                "featured": false,
                 "disabled": true
             },
             {
                 "type": "checkbox",
-                "label": "Name is visible",
-                "model": "nameVisible",
+                "label": "First Name is visible",
+                "model": "firstNameIsVisible",
                 "default": true
             },
             {
                 "type": "input",
                 "inputType": "text",
-                "label": "Name",
+                "label": "First Name",
                 "model": "name",
                 "readonly": false,
-                "featured": true,
                 "required": true,
                 "disabled": false,
-                "placeholder": "User's name",
+                "placeholder": "User's First name",
                 "validator": "VueFormGenerator.validators.string",
-                "dependsOnFunction": "fnNameVisible",
-                "dependsOnValue": "{\"nameVisible\":true}"
+                "dependsOnValue": "{\"firstNameIsVisible\":true}"
+            },
+            {
+                "type": "checkbox",
+                "label": "Last Name is visible",
+                "model": "lastNameIsVisible",
+                "default": true
+            },
+            {
+                "type": "input",
+                "inputType": "text",
+                "label": "Last Name",
+                "model": "name",
+                "readonly": false,
+                "required": true,
+                "disabled": false,
+                "placeholder": "User's Last name",
+                "validator": "VueFormGenerator.validators.string",
+                "dependsOnFunction": "lastNameIsVisible"
             },
             {
                 "type": "input",

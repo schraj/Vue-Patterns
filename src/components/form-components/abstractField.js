@@ -1,10 +1,14 @@
 import { get as objGet, each, isFunction, isString, isArray } from "lodash";
 import validators from "./utils/validators";
+import customValidators from "./utils/customValidators";
+import customFunctions from "./utils/customFunctions";
 import schemaUtils from "./utils/schema";
 
 function convertValidator(validator) {
 	if (isString(validator)) {
 		if (validators[validator] != null)
+			return validators[validator];
+		else if (validators[validator] != null)
 			return validators[validator];
 		else {
 			console.warn(`'${validator}' is not a validator function!`);
@@ -13,6 +17,21 @@ function convertValidator(validator) {
 	}
 	return validator;
 }
+
+function convertFunction(customFunction) {
+	if (isString(customFunction)) {
+		if (customFunctions[customFunction] != null)
+			return customFunctions[customFunction];
+		else if (customFunctions[customFunction] != null)
+			return customFunctions[customFunction];
+		else {
+			console.warn(`'${customFunction}' is not a customFunction function!`);
+			return null; // caller need to handle null
+		}
+	}
+	return customFunction;
+}
+
 
 export default {
 	props: [
@@ -39,6 +58,12 @@ export default {
 							visible = false;
 						}
 					});
+				} else if (this.schema.dependsOnFunction) {
+					let func = convertFunction(this.schema.dependsOnFunction);
+					if (func) {
+						let customVisibiltyFunc = func.bind(this);
+						visible = customVisibiltyFunc(this.model);
+					}
 				}
 				return visible;
 			}
