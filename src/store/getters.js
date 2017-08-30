@@ -4,7 +4,12 @@ export default {
 
     return id;
   },
-  getSchema(state) {
-    return state.schema;
+  getFormStore: (state) => {
+    return state.form;
+  },
+
+  // form action getter functions
+  nameIsVisible: (state) => {
+    return state.form.model.nameVisible;
   }
 }

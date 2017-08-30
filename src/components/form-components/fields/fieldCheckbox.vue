@@ -6,7 +6,17 @@
 import abstractField from "../abstractField";
 
 export default {
-	mixins: [abstractField]
+	mixins: [abstractField],
+	methods: {
+
+		formatValueToField(value) {
+			return value;
+		},
+
+		formatValueToModel(value) {
+			return value;
+		}
+	}
 };
 </script>
 

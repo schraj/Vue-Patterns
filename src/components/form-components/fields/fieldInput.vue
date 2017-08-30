@@ -1,10 +1,11 @@
 <template lang="pug">
-.wrapper
+
+.wrapper(v-if="isVisible")
 	input.form-control(
 		:id="getFieldID(schema)",
 		:type="schema.inputType",
 		:value="value",
-		@input="value = $event.target.value",
+		@input="onInput",
 		@change="onChange",
 		:disabled="disabled",
 		:accept="schema.accept",
@@ -47,6 +48,10 @@ export default {
 			if (this.schema.inputType === "file") {
 				this.value = event.target.files;
 			}
+		},
+
+		onInput(event) {
+			this.value = event.target.value;
 		},
 
 		formatValueToField(value) {

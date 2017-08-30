@@ -29,6 +29,20 @@ export default {
 	},
 
 	computed: {
+		isVisible: {
+			get() {
+				let visible = true;
+				if (this.schema.dependsOnValue) {
+					const dep = JSON.parse(this.schema.dependsOnValue);
+					Object.keys(dep).forEach(k => {
+						if (dep[k] != this.model[k]) {
+							visible = false;
+						}
+					});
+				}
+				return visible;
+			}
+		},
 		value: {
 			cache: false,
 			get() {
@@ -62,7 +76,7 @@ export default {
 				}
 
 				if (changed) {
-					this.$emit("model-updated", newValue, this.schema.model);
+					this.$store.commit('UPDATE_FORM', { key: this.schema.model, value: newValue });
 
 					if (isFunction(this.schema.onChanged)) {
 						this.schema.onChanged.call(this, this.model, newValue, oldValue, this.schema);

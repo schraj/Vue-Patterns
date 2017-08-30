@@ -2,7 +2,13 @@ import Config from '../config';
 
 let apiUrl = Config.useApiStubs ? '/static/apiStubs' : `${Config.baseUrl}/api`;
 
-export const getSchema = () => {
+export const getForm = () => {
+  const url = Config.useApiStubs ? `${apiUrl}/schema.json` : `${apiUrl}/getSchema/1`;
+  return get(url);
+};
+
+// TODO- MAKE Post
+export const submitForm = () => {
   const url = Config.useApiStubs ? `${apiUrl}/schema.json` : `${apiUrl}/getSchema/1`;
   return get(url);
 };

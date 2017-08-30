@@ -1,6 +1,6 @@
 <template>
   <div class='panel-body'>
-    <formGenerator :schema="schema" />
+    <formGenerator :schema="formStore.schema" :model="formStore.model" />
   </div>
 </template>
 
@@ -12,11 +12,10 @@ import formGenerator from './form-components/formGenerator';
 export default {
   data() {
     return {
-
     }
   },
   computed: mapGetters({
-    schema: 'getSchema',
+    formStore: 'getFormStore',
   }),
   components: {
     formGenerator

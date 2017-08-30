@@ -9,7 +9,7 @@ Vue.use(Vuex);
 
 const state = {
   appId: config.appId,
-  schema: {},
+  form: {},
 }
 
 export default new Vuex.Store({
