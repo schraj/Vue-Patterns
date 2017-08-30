@@ -1,28 +1,25 @@
 <template>
   <div class='panel-body'>
-    <lniFieldInput :key="item.id" :schema="item" v-for="item in schema" />
+    <formGenerator :schema="schema" />
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import { mapGetters, mapActions } from 'vuex'
-import lniFieldInput from './form-components/lniFieldInput'
+import { mapGetters, mapActions } from 'vuex';
+import formGenerator from './form-components/formGenerator';
 
 export default {
   data() {
     return {
-      formOptions: {
-        validateAfterLoad: true,
-        validateAfterChanged: true
-      }
+
     }
   },
   computed: mapGetters({
     schema: 'getSchema',
   }),
   components: {
-    lniFieldInput
+    formGenerator
   }
 }
 </script>
