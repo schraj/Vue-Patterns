@@ -1,40 +1,8 @@
-<template lang="pug">
-
-.wrapper(v-if="isVisible")
-	input.form-control(
-		:id="getFieldID(schema)",
-		:type="schema.inputType",
-		:value="value",
-		@input="onInput",
-		@change="onChange",
-		:disabled="disabled",
-		:accept="schema.accept",
-		:alt="schema.alt",
-		:autocomplete="schema.autocomplete",
-		:checked="schema.checked",
-		:dirname="schema.dirname",
-		:formaction="schema.formaction",
-		:formenctype="schema.formenctype",
-		:formmethod="schema.formmethod",
-		:formnovalidate="schema.formnovalidate",
-		:formtarget="schema.formtarget",
-		:height="schema.height",
-		:list="schema.list",
-		:max="schema.max",
-		:maxlength="schema.maxlength",
-		:min="schema.min",
-		:multiple="schema.multiple",
-		:name="schema.inputName",
-		:pattern="schema.pattern",
-		:placeholder="schema.placeholder",
-		:readonly="schema.readonly",
-		:required="schema.required",
-		:size="schema.size",
-		:src="schema.src",
-		:step="schema.step",
-		:width="schema.width",
-		:files="schema.files")
-	span.helper(v-if="schema.inputType === 'color' || schema.inputType === 'range'") {{ value }}
+<template>
+	<div class="wrapper" v-if="isVisible">
+		<input class="form-control" :id="getFieldID(schema)" :type="schema.inputType" :value="value" @input="onInput" @change="onChange" :disabled="disabled" :accept="schema.accept" :alt="schema.alt" :autocomplete="schema.autocomplete" :checked="schema.checked" :dirname="schema.dirname" :formaction="schema.formaction" :formenctype="schema.formenctype" :formmethod="schema.formmethod" :formnovalidate="schema.formnovalidate" :formtarget="schema.formtarget" :height="schema.height" :list="schema.list" :max="schema.max" :maxlength="schema.maxlength" :min="schema.min" :multiple="schema.multiple" :name="schema.inputName" :pattern="schema.pattern" :placeholder="schema.placeholder" :readonly="schema.readonly" :required="schema.required" :size="schema.size" :src="schema.src" :step="schema.step" :width="schema.width" :files="schema.files" />
+		<span class="helper" v-if="schema.inputType === 'color' || schema.inputType === 'range'">{{ value }}</span>
+	</div>
 </template>
 
 <script>

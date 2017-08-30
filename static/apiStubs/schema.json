@@ -88,18 +88,6 @@
                     "ReactJS",
                     "VueJS"
                 ]
-            },
-            {
-                "type": "switch",
-                "label": "Status",
-                "model": "status",
-                "multi": true,
-                "readonly": false,
-                "featured": false,
-                "disabled": false,
-                "default": true,
-                "textOn": "Active",
-                "textOff": "Inactive"
             }
         ]
     }

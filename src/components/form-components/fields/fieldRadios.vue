@@ -1,9 +1,9 @@
-<template lang="pug">
-	.radio-list(:disabled="disabled")
-		label(v-for="item in items", :class="{'is-checked': isItemChecked(item)}")
-			input(type="radio", :disabled="disabled", :name="id", @click="onSelection(item)", :value="getItemValue(item)", :checked="isItemChecked(item)" )
-			| {{ getItemName(item) }}
-
+<template>
+	<div class="radio-list" :disabled="disabled">
+		<label :key="item.id" v-for="item in items" :class="{'is-checked': isItemChecked(item)}">
+			<input type="radio" :disabled="disabled" :name="id" @click="onSelection(item)" :value="getItemValue(item)" :checked="isItemChecked(item)" />{{ getItemName(item) }}
+		</label>
+	</div>
 </template>
 
 <script>
