@@ -56,19 +56,19 @@ let exports = {
 	resources,
 
 	required(value, field, model, messages = resources) {
-		return checkEmpty(value, field.required, messages);
+		return checkEmpty(value, field.attributes.attributes.required, messages);
 	},
 
 	number(value, field, model, messages = resources) {
-		let res = checkEmpty(value, field.required, messages); if (res != null) return res;
+		let res = checkEmpty(value, field.attributes.attributes.required, messages); if (res != null) return res;
 
 		let err = [];
 		if (isNumber(value)) {
-			if (!isNil(field.min) && value < field.min)
-				err.push(msg(messages.numberTooSmall, field.min));
+			if (!isNil(field.attributes.attributes.min) && value < field.attributes.attributes.min)
+				err.push(msg(messages.numberTooSmall, field.attributes.attributes.min));
 
-			if (!isNil(field.max) && value > field.max)
-				err.push(msg(messages.numberTooBig, field.max));
+			if (!isNil(field.attributes.max) && value > field.attributes.max)
+				err.push(msg(messages.numberTooBig, field.attributes.max));
 
 		} else
 			err.push(msg(messages.invalidNumber));
@@ -77,29 +77,29 @@ let exports = {
 	},
 
 	integer(value, field, model, messages = resources) {
-		let res = checkEmpty(value, field.required, messages); if (res != null) return res;
+		let res = checkEmpty(value, field.attributes.required, messages); if (res != null) return res;
 
 		if (!(Number(value) === value && value % 1 === 0))
 			return [msg(messages.invalidNumber)];
 	},
 
 	double(value, field, model, messages = resources) {
-		let res = checkEmpty(value, field.required, messages); if (res != null) return res;
+		let res = checkEmpty(value, field.attributes.required, messages); if (res != null) return res;
 
 		if (!isNumber(value) || isNaN(value))
 			return [msg(messages.invalidNumber)];
 	},
 
 	string(value, field, model, messages = resources) {
-		let res = checkEmpty(value, field.required, messages); if (res != null) return res;
+		let res = checkEmpty(value, field.attributes.required, messages); if (res != null) return res;
 
 		let err = [];
 		if (isString(value)) {
-			if (!isNil(field.min) && value.length < field.min)
-				err.push(msg(messages.textTooSmall, value.length, field.min));
+			if (!isNil(field.attributes.min) && value.length < field.attributes.min)
+				err.push(msg(messages.textTooSmall, value.length, field.attributes.min));
 
-			if (!isNil(field.max) && value.length > field.max)
-				err.push(msg(messages.textTooBig, value.length, field.max));
+			if (!isNil(field.attributes.max) && value.length > field.attributes.max)
+				err.push(msg(messages.textTooBig, value.length, field.attributes.max));
 
 		} else
 			err.push(msg(messages.thisNotText));
@@ -108,7 +108,7 @@ let exports = {
 	},
 
 	array(value, field, model, messages = resources) {
-		if (field.required) {
+		if (field.attributes.required) {
 
 			if (!isArray(value))
 				return [msg(messages.thisNotArray)];
@@ -118,18 +118,18 @@ let exports = {
 		}
 
 		if (!isNil(value)) {
-			if (!isNil(field.min))
-				if (value.length < field.min)
-					return [msg(messages.selectMinItems, field.min)];
+			if (!isNil(field.attributes.min))
+				if (value.length < field.attributes.min)
+					return [msg(messages.selectMinItems, field.attributes.min)];
 
-			if (!isNil(field.max))
-				if (value.length > field.max)
-					return [msg(messages.selectMaxItems, field.max)];
+			if (!isNil(field.attributes.max))
+				if (value.length > field.attributes.max)
+					return [msg(messages.selectMaxItems, field.attributes.max)];
 		}
 	},
 
 	date(value, field, model, messages = resources) {
-		let res = checkEmpty(value, field.required, messages); if (res != null) return res;
+		let res = checkEmpty(value, field.attributes.required, messages); if (res != null) return res;
 
 		let m = new Date(value);
 		if (!m)
@@ -137,14 +137,14 @@ let exports = {
 
 		let err = [];
 
-		if (!isNil(field.min)) {
-			let min = new Date(field.min);
+		if (!isNil(field.attributes.min)) {
+			let min = new Date(field.attributes.min);
 			if (m.valueOf() < min.valueOf())
 				err.push(msg(messages.dateIsEarly, fecha.format(m), fecha.format(min)));
 		}
 
-		if (!isNil(field.max)) {
-			let max = new Date(field.max);
+		if (!isNil(field.attributes.max)) {
+			let max = new Date(field.attributes.max);
 			if (m.valueOf() > max.valueOf())
 				err.push(msg(messages.dateIsLate, fecha.format(m), fecha.format(max)));
 		}
@@ -153,17 +153,17 @@ let exports = {
 	},
 
 	regexp(value, field, model, messages = resources) {
-		let res = checkEmpty(value, field.required, messages); if (res != null) return res;
+		let res = checkEmpty(value, field.attributes.required, messages); if (res != null) return res;
 
-		if (!isNil(field.pattern)) {
-			let re = new RegExp(field.pattern);
+		if (!isNil(field.attributes.pattern)) {
+			let re = new RegExp(field.attributes.pattern);
 			if (!re.test(value))
 				return [msg(messages.invalidFormat)];
 		}
 	},
 
 	email(value, field, model, messages = resources) {
-		let res = checkEmpty(value, field.required, messages); if (res != null) return res;
+		let res = checkEmpty(value, field.attributes.required, messages); if (res != null) return res;
 
 		let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; // eslint-disable-line no-useless-escape
 		if (!re.test(value))
@@ -171,7 +171,7 @@ let exports = {
 	},
 
 	url(value, field, model, messages = resources) {
-		let res = checkEmpty(value, field.required, messages); if (res != null) return res;
+		let res = checkEmpty(value, field.attributes.required, messages); if (res != null) return res;
 
 		let re = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g; // eslint-disable-line no-useless-escape
 		if (!re.test(value))
@@ -179,7 +179,7 @@ let exports = {
 	},
 
 	creditCard(value, field, model, messages = resources) {
-		let res = checkEmpty(value, field.required, messages); if (res != null) return res;
+		let res = checkEmpty(value, field.attributes.required, messages); if (res != null) return res;
 
 		/*  From validator.js code 
 			https://github.com/chriso/validator.js/blob/master/src/lib/isCreditCard.js
@@ -214,7 +214,7 @@ let exports = {
 	},
 
 	alpha(value, field, model, messages = resources) {
-		let res = checkEmpty(value, field.required, messages); if (res != null) return res;
+		let res = checkEmpty(value, field.attributes.required, messages); if (res != null) return res;
 
 		let re = /^[a-zA-Z]*$/;
 		if (!re.test(value))
@@ -222,7 +222,7 @@ let exports = {
 	},
 
 	alphaNumeric(value, field, model, messages = resources) {
-		let res = checkEmpty(value, field.required, messages); if (res != null) return res;
+		let res = checkEmpty(value, field.attributes.required, messages); if (res != null) return res;
 
 		let re = /^[a-zA-Z0-9]*$/;
 		if (!re.test(value))

@@ -7,9 +7,4 @@ export default {
   getFormStore: (state) => {
     return state.form;
   },
-
-  // form action getter functions
-  nameIsVisible: (state) => {
-    return state.form.model.nameVisible;
-  }
 }

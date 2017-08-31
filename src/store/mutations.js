@@ -5,9 +5,9 @@ export default {
     state.form = form;
   },
   RESET_FORM: (state, { }) => {
-    state.form.model = {};
+    state.form.formData = {};
   },
   UPDATE_FORM: (state, paramObject) => {
-    state.form.model[paramObject.key] = paramObject.value;
+    state.form.formData[paramObject.key] = paramObject.value;
   },
 }

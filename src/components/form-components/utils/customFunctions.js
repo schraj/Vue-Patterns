@@ -1,5 +1,5 @@
 export default {
-	lastNameIsVisible(model) {
-		return model.lastNameIsVisible;
+	bossNameIsVisible(model) {
+		return model.bossNameIsVisible;
 	},
 }

@@ -10,7 +10,7 @@ let exports = {
 	customResources,
 
 	nameRequired(value, field, model, messages = resources) {
-		return checkEmpty(value, field.required, messages);
+		return checkEmpty(value, field.attributes.required, messages);
 	},
 }
 

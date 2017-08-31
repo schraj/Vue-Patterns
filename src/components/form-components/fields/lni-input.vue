@@ -13,8 +13,8 @@
 			</div>
 			<div class="hint" v-if="schema.attributes.hint">{{ schema.attributes.hint }}</div>
 			<!-- <div class="errors help-block" v-if="fieldErrors(schema).length>0">
-						<span :key="index" v-for="(error, index) in fieldErrors(schema)" track-by="index">{{ error }}</span>
-					</div> -->
+							<span :key="index" v-for="(error, index) in fieldErrors(schema)" track-by="index">{{ error }}</span>
+						</div> -->
 		</div>
 	</div>
 </template>
@@ -27,7 +27,7 @@ export default {
 	mixins: [abstractField],
 	methods: {
 		onChange(event) {
-			if (this.schema.inputType === "file") {
+			if (this.schema.attributes.inputType === "file") {
 				this.value = event.target.files;
 			}
 		},
@@ -39,15 +39,15 @@ export default {
 		formatValueToField(value) {
 			if (value != null) {
 				let dt;
-				switch (this.schema.inputType) {
+				switch (this.schema.attributes.inputType) {
 					case "date":
-						dt = this.schema.format ? fecha.parse(value, this.schema.format) : new Date(value);
+						dt = this.schema.attributes.format ? fecha.parse(value, this.schema.attributes.format) : new Date(value);
 						return fecha.format(dt, "YYYY-MM-DD");
 					case "datetime":
-						dt = this.schema.format ? fecha.parse(value, this.schema.format) : new Date(value);
+						dt = this.schema.attributes.format ? fecha.parse(value, this.schema.attributes.format) : new Date(value);
 						return fecha.format(dt, "YYYY-MM-DD HH:mm:ss");
 					case "datetime-local":
-						dt = this.schema.format ? fecha.parse(value, this.schema.format) : new Date(value);
+						dt = this.schema.attributes.format ? fecha.parse(value, this.schema.attributes.format) : new Date(value);
 						return fecha.format(dt, "YYYY-MM-DDTHH:mm:ss");
 				}
 			}
@@ -58,12 +58,12 @@ export default {
 		formatValueToModel(value) {
 			if (value != null) {
 				let m;
-				switch (this.schema.inputType) {
+				switch (this.schema.attributes.inputType) {
 					case "date":
 						m = fecha.parse(value, "YYYY-MM-DD");
 						if (m !== false) {
-							if (this.schema.format)
-								value = fecha.format(m, this.schema.format);
+							if (this.schema.attributes.format)
+								value = fecha.format(m, this.schema.attributes.format);
 							else
 								value = m.valueOf();
 						}
@@ -71,8 +71,8 @@ export default {
 					case "datetime":
 						m = fecha.parse(value, "YYYY-MM-DD HH:mm:ss");
 						if (m !== false) {
-							if (this.schema.format)
-								value = fecha.format(m, this.schema.format);
+							if (this.schema.attributes.format)
+								value = fecha.format(m, this.schema.attributes.format);
 							else
 								value = m.valueOf();
 						}
@@ -80,8 +80,8 @@ export default {
 					case "datetime-local":
 						m = fecha.parse(value, "YYYY-MM-DDTHH:mm:ss");
 						if (m !== false) {
-							if (this.schema.format)
-								value = fecha.format(m, this.schema.format);
+							if (this.schema.attributes.format)
+								value = fecha.format(m, this.schema.attributes.format);
 							else
 								value = m.valueOf();
 						}

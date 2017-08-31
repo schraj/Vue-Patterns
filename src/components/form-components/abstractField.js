@@ -35,7 +35,7 @@ function convertFunction(customFunction) {
 
 export default {
 	props: [
-		"model",
+		"formData",
 		"schema",
 		"formOptions",
 		"disabled"
@@ -51,18 +51,18 @@ export default {
 		isVisible: {
 			get() {
 				let visible = true;
-				if (this.schema.dependsOnValue) {
-					const dep = JSON.parse(this.schema.dependsOnValue);
+				if (this.schema.attributes.dependsOnValue) {
+					const dep = JSON.parse(this.schema.attributes.dependsOnValue);
 					Object.keys(dep).forEach(k => {
-						if (dep[k] != this.model[k]) {
+						if (dep[k] != this.formData[k]) {
 							visible = false;
 						}
 					});
-				} else if (this.schema.dependsOnFunction) {
-					let func = convertFunction(this.schema.dependsOnFunction);
+				} else if (this.schema.attributes.dependsOnFunction) {
+					let func = convertFunction(this.schema.attributes.dependsOnFunction);
 					if (func) {
 						let customVisibiltyFunc = func.bind(this);
-						visible = customVisibiltyFunc(this.model);
+						visible = customVisibiltyFunc(this.formData);
 					}
 				}
 				return visible;
@@ -72,11 +72,11 @@ export default {
 			cache: false,
 			get() {
 				let val;
-				if (isFunction(this.schema.get))
-					val = this.schema.get(this.model);
+				if (isFunction(this.schema.attributes.get))
+					val = this.schema.attributes.get(this.formData);
 
-				else if (this.model && this.schema.model)
-					val = objGet(this.model, this.schema.model);
+				else if (this.formData && this.schema.attributes.model)
+					val = objGet(this.formData, this.schema.attributes.model);
 
 				if (isFunction(this.formatValueToField))
 					val = this.formatValueToField(val);
@@ -91,20 +91,20 @@ export default {
 					newValue = this.formatValueToModel(newValue);
 
 				let changed = false;
-				if (isFunction(this.schema.set)) {
-					this.schema.set(this.model, newValue);
+				if (isFunction(this.schema.attributes.set)) {
+					this.schema.attributes.set(this.formData, newValue);
 					changed = true;
 
-				} else if (this.schema.model) {
-					this.setModelValueByPath(this.schema.model, newValue);
+				} else if (this.schema.attributes.model) {
+					this.setModelValueByPath(this.schema.attributes.model, newValue);
 					changed = true;
 				}
 
 				if (changed) {
-					this.$store.commit('UPDATE_FORM', { key: this.schema.model, value: newValue });
+					this.$store.commit('UPDATE_FORM', { key: this.schema.attributes.model, value: newValue });
 
-					if (isFunction(this.schema.onChanged)) {
-						this.schema.onChanged.call(this, this.model, newValue, oldValue, this.schema);
+					if (isFunction(this.schema.attributes.onChanged)) {
+						this.schema.onChanged.call(this, this.formData, newValue, oldValue, this.schema);
 					}
 
 					if (this.$parent.options && this.$parent.options.validateAfterChanged === true) {
@@ -219,7 +219,7 @@ export default {
 							this.errors.push(err);
 					};
 
-					let res = validator(this.value, this.schema, this.model);
+					let res = validator(this.value, this.schema, this.formData);
 					if (res && isFunction(res.then)) {
 						// It is a Promise, async validator
 						res.then(err => {
@@ -238,7 +238,7 @@ export default {
 			}
 
 			if (isFunction(this.schema.onValidated)) {
-				this.schema.onValidated.call(this, this.model, this.errors, this.schema);
+				this.schema.onValidated.call(this, this.formData, this.errors, this.schema);
 			}
 
 			let isValid = this.errors.length == 0;
@@ -259,7 +259,7 @@ export default {
 			// strip a leading dot
 			s = s.replace(/^\./, "");
 
-			let o = this.model;
+			let o = this.formData;
 			const a = s.split(".");
 			let i = 0;
 			const n = a.length;

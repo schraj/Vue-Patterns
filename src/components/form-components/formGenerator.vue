@@ -2,7 +2,7 @@
 	<div class="vue-form-generator" v-if="schema != null">
 		<fieldset v-if="schema.children" :is="tag">
 			<template v-for="field in schema.children">
-				<component :key="field.attributes.id" :is="getFieldType(field)" :model="model" :schema="field" :formOptions="options" @model-updated="modelUpdated" @validated="onFieldValidated"></component>
+				<component :key="field.attributes.id" :is="getFieldType(field)" :schema="field" :formData="formData" :formOptions="options" @model-updated="modelUpdated" @validated="onFieldValidated"></component>
 			</template>
 		</fieldset>
 	</div>
@@ -12,7 +12,7 @@
 import { each, isFunction, isNil, isArray, isString } from "lodash";
 import schemaUtils from "./utils/schema";
 
-// Load all fields from '../fields' folder
+// Load all fields from './fields' folder
 let fieldComponents = {};
 
 let coreFields = require.context("./fields", false, /^\.\/lni-([\w-_]+)\.vue$/);
@@ -28,7 +28,7 @@ export default {
 	props: {
 		schema: Object,
 
-		model: Object,
+		formData: Object,
 
 		options: {
 			type: Object,

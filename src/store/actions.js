@@ -6,7 +6,7 @@ export default {
     return getForm(config.appId)
       .then(form => commit("SET_FORM", { form }));
   },
-  SUBMIT: ({ commit, dispatch, state }, { }) => {
+  SUBMIT_FORM: ({ commit, dispatch, state }, { }) => {
     return submitForm(config.appId)
       .then(result => commit("RESET_FORM", {}));
   },

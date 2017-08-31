@@ -1,5 +1,5 @@
 {
-    "model": {},
+    "formData": {},
     "schema": {
         "element": "lni-form-input",
         "attributes": {
@@ -38,7 +38,7 @@
                     "disabled": false,
                     "placeholder": "Company name",
                     "validator": "VueFormGenerator.validators.string",
-                    "dependsOnValue": "{\"firstNameIsVisible\":true}"
+                    "dependsOnValue": "{\"companyNameIsVisible\":true}"
                 }
             },
             {
