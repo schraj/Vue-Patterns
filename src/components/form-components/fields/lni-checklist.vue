@@ -1,13 +1,13 @@
 <template>
 	<div class="wrapper">
-		<div class="listbox form-control" v-if="schema.listBox" :disabled="disabled">
+		<div class="listbox form-control" v-if="nodeSchema.listBox" :disabled="disabled">
 			<div :key="item.id" class="list-row" v-for="item in items" :class="{'is-checked': isItemChecked(item)}">
 				<label>
 					<input type="checkbox" :checked="isItemChecked(item)" :disabled="disabled" @change="onChanged($event, item)" />{{ getItemName(item) }}
 				</label>
 			</div>
 		</div>
-		<div class="combobox form-control" v-if="!schema.listBox" :disabled="disabled">
+		<div class="combobox form-control" v-if="!nodeSchema.listBox" :disabled="disabled">
 			<div class="mainRow" @click="onExpandCombo" :class="{ expanded: comboExpanded }">
 				<div class="info">{{ selectedCount }} selected</div>
 				<div class="arrow"></div>
@@ -38,9 +38,9 @@ export default {
 
 	computed: {
 		items() {
-			let values = this.schema.values;
+			let values = this.nodeSchema.values;
 			if (typeof (values) == "function") {
-				return values.apply(this, [this.model, this.schema]);
+				return values.apply(this, [this.model, this.nodeSchema]);
 			} else
 				return values;
 		},
@@ -56,8 +56,8 @@ export default {
 	methods: {
 		getItemValue(item) {
 			if (isObject(item)) {
-				if (typeof this.schema["checklistOptions"] !== "undefined" && typeof this.schema["checklistOptions"]["value"] !== "undefined") {
-					return item[this.schema.checklistOptions.value];
+				if (typeof this.nodeSchema["checklistOptions"] !== "undefined" && typeof this.nodeSchema["checklistOptions"]["value"] !== "undefined") {
+					return item[this.nodeSchema.checklistOptions.value];
 				} else {
 					if (typeof item["value"] !== "undefined") {
 						return item.value;
@@ -71,8 +71,8 @@ export default {
 		},
 		getItemName(item) {
 			if (isObject(item)) {
-				if (typeof this.schema["checklistOptions"] !== "undefined" && typeof this.schema["checklistOptions"]["name"] !== "undefined") {
-					return item[this.schema.checklistOptions.name];
+				if (typeof this.nodeSchema["checklistOptions"] !== "undefined" && typeof this.nodeSchema["checklistOptions"]["name"] !== "undefined") {
+					return item[this.nodeSchema.checklistOptions.name];
 				} else {
 					if (typeof item["name"] !== "undefined") {
 						return item.name;

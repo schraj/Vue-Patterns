@@ -1,5 +1,5 @@
 <template>
-	<input type="submit" :value="schema.buttonText" @click="click" :name="schema.inputName" :disabled="disabled" />
+	<input type="submit" :value="nodeSchema.buttonText" @click="click" :name="nodeSchema.inputName" :disabled="disabled" />
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
 
 			// TODO: Will we always validate before submit??
 
-			// if (this.schema.validateBeforeSubmit === true) {
+			// if (this.nodeSchema.validateBeforeSubmit === true) {
 			// 	if (!this.$parent.validate()) {
 			// 		// There are validation errors. Stop the submit
 			// 		return;

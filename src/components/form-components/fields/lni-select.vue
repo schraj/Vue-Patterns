@@ -1,6 +1,6 @@
 <template>
-	<select class="form-control" v-model="value" :disabled="disabled" :name="schema.inputName" :id="getFieldID(schema)">
-		<option v-if="!selectOptions.hideNoneSelectedText" :disabled="schema.required" :value="null" :selected="value == undefined">{{ selectOptions.noneSelectedText || "&lt;Nothing selected&gt;" }}</option>
+	<select class="form-control" v-model="value" :disabled="disabled" :name="nodeSchema.inputName" :id="getFieldID(schema)">
+		<option v-if="!selectOptions.hideNoneSelectedText" :disabled="nodeSchema.required" :value="null" :selected="value == undefined">{{ selectOptions.noneSelectedText || "&lt;Nothing selected&gt;" }}</option>
 		<option :key="item.id" v-for="item in items" :value="getItemValue(item)">{{ getItemName(item) }}</option>
 	</select>
 </template>
@@ -14,13 +14,13 @@ export default {
 
 	computed: {
 		selectOptions() {
-			return this.schema.selectOptions || {};
+			return this.nodeSchema.selectOptions || {};
 		},
 
 		items() {
-			let values = this.schema.values;
+			let values = this.nodeSchema.values;
 			if (typeof (values) == "function") {
-				return values.apply(this, [this.model, this.schema]);
+				return values.apply(this, [this.model, this.nodeSchema]);
 			} else
 				return values;
 		}
@@ -29,8 +29,8 @@ export default {
 	methods: {
 		getItemValue(item) {
 			if (isObject(item)) {
-				if (typeof this.schema["selectOptions"] !== "undefined" && typeof this.schema["selectOptions"]["value"] !== "undefined") {
-					return item[this.schema.selectOptions.value];
+				if (typeof this.nodeSchema["selectOptions"] !== "undefined" && typeof this.nodeSchema["selectOptions"]["value"] !== "undefined") {
+					return item[this.nodeSchema.selectOptions.value];
 				} else {
 					// Use 'id' instead of 'value' cause of backward compatibility
 					if (typeof item["id"] !== "undefined") {
@@ -46,8 +46,8 @@ export default {
 
 		getItemName(item) {
 			if (isObject(item)) {
-				if (typeof this.schema["selectOptions"] !== "undefined" && typeof this.schema["selectOptions"]["name"] !== "undefined") {
-					return item[this.schema.selectOptions.name];
+				if (typeof this.nodeSchema["selectOptions"] !== "undefined" && typeof this.nodeSchema["selectOptions"]["name"] !== "undefined") {
+					return item[this.nodeSchema.selectOptions.name];
 				} else {
 					if (typeof item["name"] !== "undefined") {
 						return item.name;

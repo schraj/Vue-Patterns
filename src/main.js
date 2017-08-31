@@ -1,14 +1,31 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import store from "./store";
-import titleMixin from './util/title';
 import * as filters from './util/filters';
 
-// mixin for handling title
-Vue.mixin(titleMixin)
+let fieldComponents = {};
+let componentNameArray = [];
+let fields = require.context("./components/form-components/fields", false, /^\.\/lni-([\w-_]+)\.vue$/);
+
+fields.keys().forEach((key) => {
+  let compName = key.replace(/^\.\//, "").replace(/\.vue/, "");
+  let component = fields(key);
+  fieldComponents[compName] = component;
+  componentNameArray.push(compName);
+});
+
+for (let component in fieldComponents) {
+  Vue.component(component, fieldComponents[component]);
+}
+
+// Global Mixins
+Vue.mixin({
+  data: () => ({
+    availableComponents: componentNameArray
+  })
+});
+
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {

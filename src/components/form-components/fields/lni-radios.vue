@@ -15,23 +15,23 @@ export default {
 
 	computed: {
 		items() {
-			let values = this.schema.values;
+			let values = this.nodeSchema.values;
 			if (typeof (values) == "function") {
-				return values.apply(this, [this.model, this.schema]);
+				return values.apply(this, [this.model, this.nodeSchema]);
 			} else {
 				return values;
 			}
 		},
 		id() {
-			return this.schema.model;
+			return this.nodeSchema.model;
 		}
 	},
 
 	methods: {
 		getItemValue(item) {
 			if (isObject(item)) {
-				if (typeof this.schema["radiosOptions"] !== "undefined" && typeof this.schema["radiosOptions"]["value"] !== "undefined") {
-					return item[this.schema.radiosOptions.value];
+				if (typeof this.nodeSchema["radiosOptions"] !== "undefined" && typeof this.nodeSchema["radiosOptions"]["value"] !== "undefined") {
+					return item[this.nodeSchema.radiosOptions.value];
 				} else {
 					if (typeof item["value"] !== "undefined") {
 						return item.value;
@@ -45,8 +45,8 @@ export default {
 		},
 		getItemName(item) {
 			if (isObject(item)) {
-				if (typeof this.schema["radiosOptions"] !== "undefined" && typeof this.schema["radiosOptions"]["name"] !== "undefined") {
-					return item[this.schema.radiosOptions.name];
+				if (typeof this.nodeSchema["radiosOptions"] !== "undefined" && typeof this.nodeSchema["radiosOptions"]["name"] !== "undefined") {
+					return item[this.nodeSchema.radiosOptions.name];
 				} else {
 					if (typeof item["name"] !== "undefined") {
 						return item.name;

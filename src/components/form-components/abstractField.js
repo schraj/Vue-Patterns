@@ -36,7 +36,8 @@ function convertFunction(customFunction) {
 export default {
 	props: [
 		"formData",
-		"schema",
+		"tree",
+		"nodeSchema",
 		"formOptions",
 		"disabled"
 	],
@@ -51,15 +52,15 @@ export default {
 		isVisible: {
 			get() {
 				let visible = true;
-				if (this.schema.attributes.dependsOnValue) {
-					const dep = JSON.parse(this.schema.attributes.dependsOnValue);
+				if (this.nodeSchema.attributes.dependsOnValue) {
+					const dep = JSON.parse(this.nodeSchema.attributes.dependsOnValue);
 					Object.keys(dep).forEach(k => {
 						if (dep[k] != this.formData[k]) {
 							visible = false;
 						}
 					});
-				} else if (this.schema.attributes.dependsOnFunction) {
-					let func = convertFunction(this.schema.attributes.dependsOnFunction);
+				} else if (this.nodeSchema.attributes.dependsOnFunction) {
+					let func = convertFunction(this.nodeSchema.attributes.dependsOnFunction);
 					if (func) {
 						let customVisibiltyFunc = func.bind(this);
 						visible = customVisibiltyFunc(this.formData);
@@ -72,11 +73,11 @@ export default {
 			cache: false,
 			get() {
 				let val;
-				if (isFunction(this.schema.attributes.get))
-					val = this.schema.attributes.get(this.formData);
+				if (isFunction(this.nodeSchema.attributes.get))
+					val = this.nodeSchema.attributes.get(this.formData);
 
-				else if (this.formData && this.schema.attributes.model)
-					val = objGet(this.formData, this.schema.attributes.model);
+				else if (this.formData && this.nodeSchema.attributes.model)
+					val = objGet(this.formData, this.nodeSchema.attributes.model);
 
 				if (isFunction(this.formatValueToField))
 					val = this.formatValueToField(val);
@@ -91,20 +92,20 @@ export default {
 					newValue = this.formatValueToModel(newValue);
 
 				let changed = false;
-				if (isFunction(this.schema.attributes.set)) {
-					this.schema.attributes.set(this.formData, newValue);
+				if (isFunction(this.nodeSchema.attributes.set)) {
+					this.nodeSchema.attributes.set(this.formData, newValue);
 					changed = true;
 
-				} else if (this.schema.attributes.model) {
-					this.setModelValueByPath(this.schema.attributes.model, newValue);
+				} else if (this.nodeSchema.attributes.model) {
+					this.setModelValueByPath(this.nodeSchema.attributes.model, newValue);
 					changed = true;
 				}
 
 				if (changed) {
-					this.$store.commit('UPDATE_FORM', { key: this.schema.attributes.model, value: newValue });
+					this.$store.commit('UPDATE_FORM', { key: this.nodeSchema.attributes.model, value: newValue });
 
-					if (isFunction(this.schema.attributes.onChanged)) {
-						this.schema.onChanged.call(this, this.formData, newValue, oldValue, this.schema);
+					if (isFunction(this.nodeSchema.attributes.onChanged)) {
+						this.nodeSchema.onChanged.call(this, this.formData, newValue, oldValue, this.nodeSchema);
 					}
 
 					if (this.$parent.options && this.$parent.options.validateAfterChanged === true) {
@@ -116,6 +117,16 @@ export default {
 	},
 
 	methods: {
+		getElementType(elementName) {
+			switch (elementName) {
+				case 'lni-textbox':
+					{
+						return 'lni-input';
+					}
+				default: return elementName;
+			}
+		},
+
 		// Get style classes of field
 		getFieldRowClasses(field) {
 			const hasErrors = this.fieldErrors(field).length > 0;
@@ -200,13 +211,13 @@ export default {
 		validate(calledParent) {
 			this.clearValidationErrors();
 
-			if (this.schema.validator && this.schema.readonly !== true && this.disabled !== true) {
+			if (this.nodeSchema.validator && this.nodeSchema.readonly !== true && this.disabled !== true) {
 
 				let validators = [];
-				if (!isArray(this.schema.validator)) {
-					validators.push(convertValidator(this.schema.validator).bind(this));
+				if (!isArray(this.nodeSchema.validator)) {
+					validators.push(convertValidator(this.nodeSchema.validator).bind(this));
 				} else {
-					each(this.schema.validator, (validator) => {
+					each(this.nodeSchema.validator, (validator) => {
 						validators.push(convertValidator(validator).bind(this));
 					});
 				}
@@ -219,7 +230,7 @@ export default {
 							this.errors.push(err);
 					};
 
-					let res = validator(this.value, this.schema, this.formData);
+					let res = validator(this.value, this.nodeSchema, this.formData);
 					if (res && isFunction(res.then)) {
 						// It is a Promise, async validator
 						res.then(err => {
@@ -237,8 +248,8 @@ export default {
 
 			}
 
-			if (isFunction(this.schema.onValidated)) {
-				this.schema.onValidated.call(this, this.formData, this.errors, this.schema);
+			if (isFunction(this.nodeSchema.onValidated)) {
+				this.nodeSchema.onValidated.call(this, this.formData, this.errors, this.nodeSchema);
 			}
 
 			let isValid = this.errors.length == 0;

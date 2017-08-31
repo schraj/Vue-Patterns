@@ -1,5 +1,5 @@
 <template>
-	<input type="textarea" class="form-control" v-model="value" :id="getFieldID(schema)" :disabled="disabled" :maxlength="schema.max" :minlength="schema.min" :placeholder="schema.placeholder" :readonly="schema.readonly" :rows="schema.rows || 2" :name="schema.inputName" />
+	<input type="textarea" class="form-control" v-model="value" :id="getFieldID(schema)" :disabled="disabled" :maxlength="nodeSchema.max" :minlength="nodeSchema.min" :placeholder="nodeSchema.placeholder" :readonly="nodeSchema.readonly" :rows="nodeSchema.rows || 2" :name="nodeSchema.inputName" />
 </template>
 
 <script>

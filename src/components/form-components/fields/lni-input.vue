@@ -1,20 +1,20 @@
 <template>
 	<div class="wrapper" v-if="isVisible">
-		<div :key="schema.attributes.id" class="form-group" :class="getFieldRowClasses(schema)">
+		<div :key="nodeSchema.attributes.id" class="form-group" :class="getFieldRowClasses(schema)">
 			<label v-if="fieldTypeHasLabel(schema)" :for="getFieldID(schema)">{{ schema.attributes.label }}
-				<span class="help" v-if="schema.attributes.help">
+				<span class="help" v-if="nodeSchema.attributes.help">
 					<i class="icon"></i>
-					<div class="helpText" v-html="schema.attributes.help"></div>
+					<div class="helpText" v-html="nodeSchema.attributes.help"></div>
 				</span>
 			</label>
 			<div class="field-wrap">
-				<input class="form-control" :id="getFieldID(schema)" :type="schema.attributes.inputType" :value="value" @input="onInput" @change="onChange" :disabled="disabled" :accept="schema.attributes.accept" :alt="schema.attributes.alt" :checked="schema.attributes.checked" :dirname="schema.attributes.dirname" :formaction="schema.formaction" :formenctype="schema.attributes.formenctype" :formmethod="schema.attributes.formmethod" :formnovalidate="schema.attributes.formnovalidate" :formtarget="schema.attributes.formtarget" :height="schema.attributes.height" :list="schema.attributes.list" :max="schema.attributes.max" :maxlength="schema.attributes.maxlength" :min="schema.attributes.min" :multiple="schema.attributes.multiple" :name="schema.attributes.inputName" :pattern="schema.attributes.pattern" :placeholder="schema.attributes.placeholder" :readonly="schema.attributes.readonly" :required="schema.required" :size="schema.attributes.size" :src="schema.attributes.src" :step="schema.attributes.step" :width="schema.attributes.width" :files="schema.attributes.files" />
-				<span class="helper" v-if="schema.attributes.inputType === 'color' || schema.attributes.inputType === 'range'">{{ value }}</span>
+				<input class="form-control" :id="getFieldID(schema)" :type="nodeSchema.attributes.inputType" :value="value" @input="onInput" @change="onChange" :disabled="disabled" :accept="nodeSchema.attributes.accept" :alt="nodeSchema.attributes.alt" :checked="nodeSchema.attributes.checked" :dirname="nodeSchema.attributes.dirname" :formaction="nodeSchema.formaction" :formenctype="nodeSchema.attributes.formenctype" :formmethod="nodeSchema.attributes.formmethod" :formnovalidate="nodeSchema.attributes.formnovalidate" :formtarget="nodeSchema.attributes.formtarget" :height="nodeSchema.attributes.height" :list="nodeSchema.attributes.list" :max="nodeSchema.attributes.max" :maxlength="nodeSchema.attributes.maxlength" :min="nodeSchema.attributes.min" :multiple="nodeSchema.attributes.multiple" :name="nodeSchema.attributes.inputName" :pattern="nodeSchema.attributes.pattern" :placeholder="nodeSchema.attributes.placeholder" :readonly="nodeSchema.attributes.readonly" :required="nodeSchema.required" :size="nodeSchema.attributes.size" :src="nodeSchema.attributes.src" :step="nodeSchema.attributes.step" :width="nodeSchema.attributes.width" :files="nodeSchema.attributes.files" />
+				<span class="helper" v-if="nodeSchema.attributes.inputType === 'color' || schema.attributes.inputType === 'range'">{{ value }}</span>
 			</div>
-			<div class="hint" v-if="schema.attributes.hint">{{ schema.attributes.hint }}</div>
+			<div class="hint" v-if="nodeSchema.attributes.hint">{{ schema.attributes.hint }}</div>
 			<!-- <div class="errors help-block" v-if="fieldErrors(schema).length>0">
-							<span :key="index" v-for="(error, index) in fieldErrors(schema)" track-by="index">{{ error }}</span>
-						</div> -->
+									<span :key="index" v-for="(error, index) in fieldErrors(schema)" track-by="index">{{ error }}</span>
+								</div> -->
 		</div>
 	</div>
 </template>
@@ -27,7 +27,7 @@ export default {
 	mixins: [abstractField],
 	methods: {
 		onChange(event) {
-			if (this.schema.attributes.inputType === "file") {
+			if (this.nodeSchema.attributes.inputType === "file") {
 				this.value = event.target.files;
 			}
 		},
@@ -39,15 +39,15 @@ export default {
 		formatValueToField(value) {
 			if (value != null) {
 				let dt;
-				switch (this.schema.attributes.inputType) {
+				switch (this.nodeSchema.attributes.inputType) {
 					case "date":
-						dt = this.schema.attributes.format ? fecha.parse(value, this.schema.attributes.format) : new Date(value);
+						dt = this.nodeSchema.attributes.format ? fecha.parse(value, this.nodeSchema.attributes.format) : new Date(value);
 						return fecha.format(dt, "YYYY-MM-DD");
 					case "datetime":
-						dt = this.schema.attributes.format ? fecha.parse(value, this.schema.attributes.format) : new Date(value);
+						dt = this.nodeSchema.attributes.format ? fecha.parse(value, this.nodeSchema.attributes.format) : new Date(value);
 						return fecha.format(dt, "YYYY-MM-DD HH:mm:ss");
 					case "datetime-local":
-						dt = this.schema.attributes.format ? fecha.parse(value, this.schema.attributes.format) : new Date(value);
+						dt = this.nodeSchema.attributes.format ? fecha.parse(value, this.nodeSchema.attributes.format) : new Date(value);
 						return fecha.format(dt, "YYYY-MM-DDTHH:mm:ss");
 				}
 			}
@@ -58,12 +58,12 @@ export default {
 		formatValueToModel(value) {
 			if (value != null) {
 				let m;
-				switch (this.schema.attributes.inputType) {
+				switch (this.nodeSchema.attributes.inputType) {
 					case "date":
 						m = fecha.parse(value, "YYYY-MM-DD");
 						if (m !== false) {
-							if (this.schema.attributes.format)
-								value = fecha.format(m, this.schema.attributes.format);
+							if (this.nodeSchema.attributes.format)
+								value = fecha.format(m, this.nodeSchema.attributes.format);
 							else
 								value = m.valueOf();
 						}
@@ -71,8 +71,8 @@ export default {
 					case "datetime":
 						m = fecha.parse(value, "YYYY-MM-DD HH:mm:ss");
 						if (m !== false) {
-							if (this.schema.attributes.format)
-								value = fecha.format(m, this.schema.attributes.format);
+							if (this.nodeSchema.attributes.format)
+								value = fecha.format(m, this.nodeSchema.attributes.format);
 							else
 								value = m.valueOf();
 						}
@@ -80,8 +80,8 @@ export default {
 					case "datetime-local":
 						m = fecha.parse(value, "YYYY-MM-DDTHH:mm:ss");
 						if (m !== false) {
-							if (this.schema.attributes.format)
-								value = fecha.format(m, this.schema.attributes.format);
+							if (this.nodeSchema.attributes.format)
+								value = fecha.format(m, this.nodeSchema.attributes.format);
 							else
 								value = m.valueOf();
 						}

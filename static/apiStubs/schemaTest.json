@@ -1,0 +1,11 @@
+{
+    "formData": {},
+    "schema": {
+        "element": "lni-form",
+        "attributes": {
+            "id": 1,
+            "formName": "test-form"
+        },
+        "children": []
+    }
+}
