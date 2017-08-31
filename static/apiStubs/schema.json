@@ -1,93 +1,132 @@
 {
     "model": {},
     "schema": {
-        "fields": [
+        "element": "lni-form-input",
+        "attributes": {
+            "id": 1,
+            "model": "test-form",
+            "title": "Test Form"
+        },
+        "children": [
             {
-                "type": "input",
-                "inputType": "text",
-                "label": "ID",
-                "model": "id",
-                "readonly": true,
-                "disabled": true
+                "element": "lni-name-input",
+                "attributes": {
+                    "id": 2,
+                    "model": "userName",
+                    "readonly": true,
+                    "disabled": true
+                }
             },
             {
-                "type": "checkbox",
-                "label": "First Name is visible",
-                "model": "firstNameIsVisible",
-                "default": true
+                "element": "lni-checkbox",
+                "attributes": {
+                    "id": 1,
+                    "label": "Company Name is visible",
+                    "model": "companyNameIsVisible",
+                    "default": true
+                }
             },
             {
-                "type": "input",
-                "inputType": "text",
-                "label": "First Name",
-                "model": "name",
-                "readonly": false,
-                "required": true,
-                "disabled": false,
-                "placeholder": "User's First name",
-                "validator": "VueFormGenerator.validators.string",
-                "dependsOnValue": "{\"firstNameIsVisible\":true}"
+                "element": "lni-textbox",
+                "attributes": {
+                    "id": 1,
+                    "inputType": "text",
+                    "label": "Company Name",
+                    "model": "name",
+                    "readonly": false,
+                    "required": true,
+                    "disabled": false,
+                    "placeholder": "Company name",
+                    "validator": "VueFormGenerator.validators.string",
+                    "dependsOnValue": "{\"firstNameIsVisible\":true}"
+                }
             },
             {
-                "type": "checkbox",
-                "label": "Last Name is visible",
-                "model": "lastNameIsVisible",
-                "default": true
+                "element": "lni-checkbox",
+                "attributes": {
+                    "id": 1,
+                    "label": "Boss Name is visible",
+                    "model": "bossNameIsVisible",
+                    "default": true
+                }
             },
             {
-                "type": "input",
-                "inputType": "text",
-                "label": "Last Name",
-                "model": "name",
-                "readonly": false,
-                "required": true,
-                "disabled": false,
-                "placeholder": "User's Last name",
-                "validator": "VueFormGenerator.validators.string",
-                "dependsOnFunction": "lastNameIsVisible"
+                "element": "lni-textbox",
+                "attributes": {
+                    "id": 1,
+                    "inputType": "text",
+                    "label": "Boss Name",
+                    "model": "bossName",
+                    "readonly": false,
+                    "required": true,
+                    "disabled": false,
+                    "placeholder": "Boss name",
+                    "validator": "VueFormGenerator.validators.string",
+                    "dependsOnFunction": "bossNameIsVisible"
+                }
             },
             {
-                "type": "input",
-                "inputType": "password",
-                "label": "Password",
-                "model": "password",
-                "min": 6,
-                "required": true,
-                "hint": "Minimum 6 characters",
-                "validator": "VueFormGenerator.validators.string"
+                "element": "lni-textbox",
+                "attributes": {
+                    "id": 1,
+                    "inputType": "password",
+                    "label": "Password",
+                    "model": "password",
+                    "min": 6,
+                    "required": true,
+                    "hint": "Minimum 6 characters",
+                    "validator": "VueFormGenerator.validators.string"
+                }
             },
             {
-                "type": "input",
-                "inputType": "number",
-                "label": "Age",
-                "model": "age",
-                "min": 18,
-                "validator": "VueFormGenerator.validators.number"
+                "element": "lni-textbox",
+                "attributes": {
+                    "id": 1,
+                    "inputType": "number",
+                    "label": "Age",
+                    "model": "age",
+                    "min": 18,
+                    "validator": "VueFormGenerator.validators.number"
+                }
             },
             {
-                "type": "input",
-                "inputType": "email",
-                "label": "E-mail",
-                "model": "email",
-                "placeholder": "User's e-mail address",
-                "validator": "VueFormGenerator.validators.email"
+                "element": "lni-textbox",
+                "attributes": {
+                    "id": 1,
+                    "inputType": "email",
+                    "label": "E-mail",
+                    "model": "email",
+                    "placeholder": "User's e-mail address",
+                    "validator": "VueFormGenerator.validators.email"
+                }
             },
             {
-                "type": "checklist",
-                "label": "Skills",
-                "model": "skills",
-                "multi": true,
-                "required": true,
-                "multiSelect": true,
-                "values": [
-                    "HTML5",
-                    "Javascript",
-                    "CSS3",
-                    "CoffeeScript",
-                    "AngularJS",
-                    "ReactJS",
-                    "VueJS"
-                ]
+                "element": "lni-checklist",
+                "attributes": {
+                    "id": 1,
+                    "label": "Skills",
+                    "model": "skills",
+                    "multi": true,
+                    "required": true,
+                    "multiSelect": true,
+                    "values": [
+                        "HTML5",
+                        "Javascript",
+                        "CSS3",
+                        "CoffeeScript",
+                        "AngularJS",
+                        "ReactJS",
+                        "VueJS"
+                    ]
+                }
+            },
+            {
+                "element": "lni-submit",
+                "attributes": {
+                    "id": 1,
+                    "inputName": "test input Name",
+                    "buttonText": "Submit"
+                }
             }
         ]
     }

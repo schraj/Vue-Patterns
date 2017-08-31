@@ -1,4 +1,4 @@
-import { get as objGet, each, isFunction, isString, isArray } from "lodash";
+import { get as objGet, isNil, each, isFunction, isString, isArray } from "lodash";
 import validators from "./utils/validators";
 import customValidators from "./utils/customValidators";
 import customFunctions from "./utils/customFunctions";
@@ -116,6 +116,87 @@ export default {
 	},
 
 	methods: {
+		// Get style classes of field
+		getFieldRowClasses(field) {
+			const hasErrors = this.fieldErrors(field).length > 0;
+			let baseClasses = {
+				error: hasErrors,
+				disabled: this.fieldDisabled(field),
+				readonly: this.fieldReadonly(field),
+				required: this.fieldRequired(field)
+			};
+
+			// let { validationErrorClass, validationSuccessClass } = this.options;
+			// if (validationErrorClass && validationSuccessClass) {
+			// 	if (hasErrors) {
+			// 		baseClasses[validationErrorClass] = true;
+			// 		baseClasses.error = false;
+			// 	}
+			// 	else {
+			// 		baseClasses[validationSuccessClass] = true;
+			// 	}
+			// }
+
+			// if (isArray(field.styleClasses)) {
+			// 	each(field.styleClasses, (c) => baseClasses[c] = true);
+			// }
+			// else if (isString(field.styleClasses)) {
+			// 	baseClasses[field.styleClasses] = true;
+			// }
+
+			baseClasses["field-" + field.element] = true;
+
+			return baseClasses;
+		},
+
+		// Should field type have a label?
+		fieldTypeHasLabel(field) {
+			let relevantType = "";
+			if (field.element === "lni-input") {
+				relevantType = field.inputType;
+			} else {
+				relevantType = field.type;
+			}
+
+			switch (relevantType) {
+				case "lni-button":
+				case "lni-submit":
+				case "lni-reset":
+					return false;
+				default:
+					return true;
+			}
+		},
+
+		// Get disabled attr of field
+		fieldDisabled(field) {
+			if (isNil(field.attributes.disabled))
+				return false;
+
+			return field.attributes.disabled;
+		},
+
+		// Get required prop of field
+		fieldRequired(field) {
+			if (isNil(field.attributes.required))
+				return false;
+
+			return field.attributes.required;
+		},
+
+		// Get readonly prop of field
+		fieldReadonly(field) {
+			if (isNil(field.attributes.readonly))
+				return false;
+
+			return field.readonly;
+		},
+
+		fieldErrors(field) {
+			let res = this.errors.filter(e => e.field == field);
+			return res.map(item => item.error);
+		},
+
 		validate(calledParent) {
 			this.clearValidationErrors();
 

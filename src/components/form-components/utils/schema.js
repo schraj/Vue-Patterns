@@ -58,13 +58,12 @@ exports.mergeMultiObjectFields = function (schema, objs) {
 exports.slugifyFormID = function (schema, prefix = "") {
 	// Try to get a reasonable default id from the schema,
 	// then slugify it.
-	if (typeof schema.id !== "undefined") {
+	if (typeof schema.attributes.id !== "undefined") {
 		// If an ID's been explicitly set, use it unchanged
-		return prefix + schema.id;
+		return prefix + schema.attributes.id;
 	} else {
 		// Return the slugified version of either:
-		return prefix + (schema.inputName || schema.label || schema.model)
-			// NB: This is a very simple, conservative, slugify function,
+		return prefix + (schema.attributes.inputName || schema.attributes.label || schema.attributes.model)
 			// avoiding extra dependencies.
 			.toString()
 			.trim()

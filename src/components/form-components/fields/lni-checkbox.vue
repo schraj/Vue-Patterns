@@ -1,5 +1,5 @@
 <template>
-	<input type="checkbox" v-model="value" :autocomplete="schema.autocomplete" :disabled="disabled" :name="schema.inputName" />
+	<input type="checkbox" v-model="value" :disabled="disabled" :name="schema.inputName" />
 </template>
 
 <script>

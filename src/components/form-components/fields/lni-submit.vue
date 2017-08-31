@@ -11,15 +11,19 @@ export default {
 
 	methods: {
 		click() {
-			if (this.schema.validateBeforeSubmit === true) {
-				if (!this.$parent.validate()) {
-					// There are validation errors. Stop the submit
-					return;
-				}
-			}
 
-			if (isFunction(this.schema.onSubmit))
-				this.schema.onSubmit(this.model, this.schema);
+			this.$store.dispatch('SUBMIT_FORM');
+
+			// TODO: Will we always validate before submit??
+
+			// if (this.schema.validateBeforeSubmit === true) {
+			// 	if (!this.$parent.validate()) {
+			// 		// There are validation errors. Stop the submit
+			// 		return;
+			// 	}
+			// }
+
+
 		}
 	}
 };

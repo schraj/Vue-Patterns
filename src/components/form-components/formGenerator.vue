@@ -1,64 +1,21 @@
 <template>
 	<div class="vue-form-generator" v-if="schema != null">
-		<fieldset v-if="schema.fields" :is="tag">
-			<template v-for="field in fields">
-				<div :key="field.id" class="form-group" v-if="fieldVisible(field)" :class="getFieldRowClasses(field)">
-					<label v-if="fieldTypeHasLabel(field)" :for="getFieldID(field)">{{ field.label }}
-						<span class="help" v-if="field.help">
-							<i class="icon"></i>
-							<div class="helpText" v-html="field.help"></div>
-						</span>
-					</label>
-					<div class="field-wrap">
-						<component :is="getFieldType(field)" :disabled="fieldDisabled(field)" :model="model" :schema="field" :formOptions="options" @model-updated="modelUpdated" @validated="onFieldValidated"></component>
-						<div class="buttons" v-if="buttonVisibility(field)">
-							<button :key="btn.id" v-for="btn in field.buttons" @click="buttonClickHandler(btn, field, $event)" :class="btn.classes">{{ btn.label }}</button>
-						</div>
-					</div>
-					<div class="hint" v-if="field.hint">{{ field.hint }}</div>
-					<div class="errors help-block" v-if="fieldErrors(field).length>0">
-						<span :key="index" v-for="(error, index) in fieldErrors(field)" track-by="index">{{ error }}</span>
-					</div>
-				</div>
+		<fieldset v-if="schema.children" :is="tag">
+			<template v-for="field in schema.children">
+				<component :key="field.attributes.id" :is="getFieldType(field)" :model="model" :schema="field" :formOptions="options" @model-updated="modelUpdated" @validated="onFieldValidated"></component>
 			</template>
 		</fieldset>
-		<template v-for="group in groups">
-			<fieldset :key="group.id">
-				<legend v-if="group.legend">{{ group.legend }}</legend>
-				<template v-for="field in group.fields">
-					<div :key="field.id" class="form-group" v-if="fieldVisible(field)" :class="getFieldRowClasses(field)">
-						<label v-if="fieldTypeHasLabel(field)" :for="getFieldID(field)">{{ field.label }}
-							<span class="help" v-if="field.help">
-								<i class="icon"></i>
-								<div class="helpText" v-html="field.help"></div>
-							</span>
-						</label>
-						<div class="field-wrap">
-							<component :is="getFieldType(field)" :disabled="fieldDisabled(field)" :model="model" :schema="field" :formOptions="options" @model-updated="modelUpdated" @validated="onFieldValidated"></component>
-							<div class="buttons" v-if="buttonVisibility(field)">
-								<button :key="btn.id" v-for="btn in field.buttons" @click="buttonClickHandler(btn, field, $event)" :class="btn.classes">{{ btn.label }}</button>
-							</div>
-						</div>
-						<div class="hint" v-if="field.hint">{{ field.hint }}</div>
-						<div class="errors help-block" v-if="fieldErrors(field).length &gt; 0">
-							<span :key="index" v-for="(error, index) in fieldErrors(field)" track-by="index">{{ error }}</span>
-						</div>
-					</div>
-				</template>
-			</fieldset>
-		</template>
 	</div>
 </template>
 
 <script>
-// import Vue from "vue";
 import { each, isFunction, isNil, isArray, isString } from "lodash";
 import schemaUtils from "./utils/schema";
 
 // Load all fields from '../fields' folder
 let fieldComponents = {};
 
-let coreFields = require.context("./fields", false, /^\.\/field([\w-_]+)\.vue$/);
+let coreFields = require.context("./fields", false, /^\.\/lni-([\w-_]+)\.vue$/);
 
 each(coreFields.keys(), (key) => {
 	let compName = key.replace(/^\.\//, "").replace(/\.vue/, "");
@@ -113,8 +70,8 @@ export default {
 	computed: {
 		fields() {
 			let res = [];
-			if (this.schema && this.schema.fields) {
-				each(this.schema.fields, (field) => {
+			if (this.schema && this.schema.children) {
+				each(this.schema.children, (field) => {
 					if (!this.multiple || field.multi === true)
 						res.push(field);
 				});
@@ -122,16 +79,6 @@ export default {
 
 			return res;
 		},
-		groups() {
-			let res = [];
-			if (this.schema && this.schema.groups) {
-				each(this.schema.groups, (group) => {
-					res.push(group);
-				});
-			}
-
-			return res;
-		}
 	},
 
 	watch: {
@@ -166,117 +113,16 @@ export default {
 	},
 
 	methods: {
-		// Get style classes of field
-		getFieldRowClasses(field) {
-			const hasErrors = this.fieldErrors(field).length > 0;
-			let baseClasses = {
-				error: hasErrors,
-				disabled: this.fieldDisabled(field),
-				readonly: this.fieldReadonly(field),
-				featured: this.fieldFeatured(field),
-				required: this.fieldRequired(field)
-			};
-
-			let { validationErrorClass, validationSuccessClass } = this.options;
-			if (validationErrorClass && validationSuccessClass) {
-				if (hasErrors) {
-					baseClasses[validationErrorClass] = true;
-					baseClasses.error = false;
-				}
-				else {
-					baseClasses[validationSuccessClass] = true;
-				}
-			}
-
-			if (isArray(field.styleClasses)) {
-				each(field.styleClasses, (c) => baseClasses[c] = true);
-			}
-			else if (isString(field.styleClasses)) {
-				baseClasses[field.styleClasses] = true;
-			}
-
-			baseClasses["field-" + field.type] = true;
-
-			return baseClasses;
-		},
-
-		// Get type of field 'field-xxx'. It'll be the name of HTML element
+		// It'll be the name of HTML element
 		getFieldType(fieldSchema) {
-			return "field-" + fieldSchema.type;
-		},
-
-		// Should field type have a label?
-		fieldTypeHasLabel(field) {
-			let relevantType = "";
-			if (field.type === "input") {
-				relevantType = field.inputType;
-			} else {
-				relevantType = field.type;
+			const elementName = fieldSchema.element;
+			switch (elementName) {
+				case 'lni-textbox':
+					{
+						return 'lni-input';
+					}
+				default: return elementName;
 			}
-
-			switch (relevantType) {
-				case "button":
-				case "submit":
-				case "reset":
-					return false;
-				default:
-					return true;
-			}
-		},
-
-		// Get disabled attr of field
-		fieldDisabled(field) {
-			if (isFunction(field.disabled))
-				return field.disabled.call(this, this.model, field, this);
-
-			if (isNil(field.disabled))
-				return false;
-
-			return field.disabled;
-		},
-
-		// Get required prop of field
-		fieldRequired(field) {
-			if (isFunction(field.required))
-				return field.required.call(this, this.model, field, this);
-
-			if (isNil(field.required))
-				return false;
-
-			return field.required;
-		},
-
-		// Get visible prop of field
-		fieldVisible(field) {
-			if (isFunction(field.visible))
-				return field.visible.call(this, this.model, field, this);
-
-			if (isNil(field.visible))
-				return true;
-
-			return field.visible;
-		},
-
-		// Get readonly prop of field
-		fieldReadonly(field) {
-			if (isFunction(field.readonly))
-				return field.readonly.call(this, this.model, field, this);
-
-			if (isNil(field.readonly))
-				return false;
-
-			return field.readonly;
-		},
-
-		// Get featured prop of field
-		fieldFeatured(field) {
-			if (isFunction(field.featured))
-				return field.featured.call(this, this.model, field, this);
-
-			if (isNil(field.featured))
-				return false;
-
-			return field.featured;
 		},
 
 		buttonClickHandler(btn, field, event) {
@@ -338,11 +184,6 @@ export default {
 
 		buttonVisibility(field) {
 			return field.buttons && field.buttons.length > 0;
-		},
-
-		fieldErrors(field) {
-			let res = this.errors.filter(e => e.field == field);
-			return res.map(item => item.error);
 		},
 
 		getFieldID(schema) {
