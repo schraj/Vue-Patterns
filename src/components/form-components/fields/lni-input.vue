@@ -1,20 +1,20 @@
 <template>
 	<div class="wrapper" v-if="isVisible">
-		<div :key="nodeSchema.attributes.id" class="form-group" :class="getFieldRowClasses(schema)">
-			<label v-if="fieldTypeHasLabel(schema)" :for="getFieldID(schema)">{{ schema.attributes.label }}
+		<div :key="nodeSchema.attributes.id" class="form-group" :class="getFieldRowClasses(nodeSchema)">
+			<label v-if="fieldTypeHasLabel(nodeSchema)" :for="getFieldID(nodeSchema)">{{ nodeSchema.attributes.label }}
 				<span class="help" v-if="nodeSchema.attributes.help">
 					<i class="icon"></i>
 					<div class="helpText" v-html="nodeSchema.attributes.help"></div>
 				</span>
 			</label>
 			<div class="field-wrap">
-				<input class="form-control" :id="getFieldID(schema)" :type="nodeSchema.attributes.inputType" :value="value" @input="onInput" @change="onChange" :disabled="disabled" :accept="nodeSchema.attributes.accept" :alt="nodeSchema.attributes.alt" :checked="nodeSchema.attributes.checked" :dirname="nodeSchema.attributes.dirname" :formaction="nodeSchema.formaction" :formenctype="nodeSchema.attributes.formenctype" :formmethod="nodeSchema.attributes.formmethod" :formnovalidate="nodeSchema.attributes.formnovalidate" :formtarget="nodeSchema.attributes.formtarget" :height="nodeSchema.attributes.height" :list="nodeSchema.attributes.list" :max="nodeSchema.attributes.max" :maxlength="nodeSchema.attributes.maxlength" :min="nodeSchema.attributes.min" :multiple="nodeSchema.attributes.multiple" :name="nodeSchema.attributes.inputName" :pattern="nodeSchema.attributes.pattern" :placeholder="nodeSchema.attributes.placeholder" :readonly="nodeSchema.attributes.readonly" :required="nodeSchema.required" :size="nodeSchema.attributes.size" :src="nodeSchema.attributes.src" :step="nodeSchema.attributes.step" :width="nodeSchema.attributes.width" :files="nodeSchema.attributes.files" />
-				<span class="helper" v-if="nodeSchema.attributes.inputType === 'color' || schema.attributes.inputType === 'range'">{{ value }}</span>
+				<input class="form-control" :id="getFieldID(nodeSchema)" :type="nodeSchema.attributes.inputType" :value="value" @input="onInput" @change="onChange" :disabled="disabled" :accept="nodeSchema.attributes.accept" :alt="nodeSchema.attributes.alt" :checked="nodeSchema.attributes.checked" :dirname="nodeSchema.attributes.dirname" :formaction="nodeSchema.formaction" :formenctype="nodeSchema.attributes.formenctype" :formmethod="nodeSchema.attributes.formmethod" :formnovalidate="nodeSchema.attributes.formnovalidate" :formtarget="nodeSchema.attributes.formtarget" :height="nodeSchema.attributes.height" :list="nodeSchema.attributes.list" :max="nodeSchema.attributes.max" :maxlength="nodeSchema.attributes.maxlength" :min="nodeSchema.attributes.min" :multiple="nodeSchema.attributes.multiple" :name="nodeSchema.attributes.inputName" :pattern="nodeSchema.attributes.pattern" :placeholder="nodeSchema.attributes.placeholder" :readonly="nodeSchema.attributes.readonly" :required="nodeSchema.required" :size="nodeSchema.attributes.size" :src="nodeSchema.attributes.src" :step="nodeSchema.attributes.step" :width="nodeSchema.attributes.width" :files="nodeSchema.attributes.files" />
+				<span class="helper" v-if="nodeSchema.attributes.inputType === 'color' || nodeSchema.attributes.inputType === 'range'">{{ value }}</span>
 			</div>
-			<div class="hint" v-if="nodeSchema.attributes.hint">{{ schema.attributes.hint }}</div>
-			<!-- <div class="errors help-block" v-if="fieldErrors(schema).length>0">
-									<span :key="index" v-for="(error, index) in fieldErrors(schema)" track-by="index">{{ error }}</span>
-								</div> -->
+			<div class="hint" v-if="nodeSchema.attributes.hint">{{ nodeSchema.attributes.hint }}</div>
+			<!-- <div class="errors help-block" v-if="fieldErrors(nodeSchema).length>0">
+											<span :key="index" v-for="(error, index) in fieldErrors(nodeSchema)" track-by="index">{{ error }}</span>
+										</div> -->
 		</div>
 	</div>
 </template>
