@@ -295,9 +295,8 @@ export default {
 			}
 		},
 
-		getFieldID(schema) {
-			const idPrefix = this.formOptions && this.formOptions.fieldIdPrefix ? this.formOptions.fieldIdPrefix : "";
-			return schemaUtils.slugifyFormID(schema, idPrefix);
+		getFieldId(nodeSchema) {
+			return schemaUtils.slugifyFormID(nodeSchema);
 		}
 
 	}

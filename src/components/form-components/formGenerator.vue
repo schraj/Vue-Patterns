@@ -1,5 +1,5 @@
 <template>
-	<div class="vue-form-generator" v-if="schema">
+	<div class="form-generator" v-if="schema">
 		<lni-form :tree="schema.children" :nodeSchema="schema" :formData="formData" :formOptions="options">
 		</lni-form>
 	</div>
@@ -142,11 +142,6 @@ export default {
 		// modelUpdated(newVal, schema) {
 		// 	//this.$emit("model-updated", newVal, schema);
 		// },
-
-		// getFieldID(schema) {
-		// 	const idPrefix = this.options && this.options.fieldIdPrefix ? this.options.fieldIdPrefix : "";
-		// 	return schemaUtils.slugifyFormID(schema, idPrefix);
-		// }
 	}
 };
 

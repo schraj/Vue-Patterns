@@ -1,5 +1,5 @@
 <template>
-	<span :id="getFieldID(nodeSchema)">
+	<span :id="getFieldId(nodeSchema)">
 		{{ value }}
 	</span>
 </template>

@@ -1,5 +1,5 @@
 <template>
-	<select class="form-control" v-model="value" :disabled="disabled" :name="nodeSchema.inputName" :id="getFieldID(schema)">
+	<select class="form-control" v-model="value" :disabled="disabled" :name="nodeSchema.inputName" :id="getFieldId(schema)">
 		<option v-if="!selectOptions.hideNoneSelectedText" :disabled="nodeSchema.required" :value="null" :selected="value == undefined">{{ selectOptions.noneSelectedText || "&lt;Nothing selected&gt;" }}</option>
 		<option :key="item.id" v-for="item in items" :value="getItemValue(item)">{{ getItemName(item) }}</option>
 	</select>

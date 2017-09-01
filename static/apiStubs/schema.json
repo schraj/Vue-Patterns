@@ -3,21 +3,18 @@
     "schema": {
         "element": "lni-form",
         "attributes": {
-            "id": 1,
-            "formName": "test-form"
+            "inputName": "test-form"
         },
         "children": [
             {
                 "element": "lni-fieldset",
                 "attributes": {
-                    "id": 1,
-                    "legend": "test legend"
+                    "label": "test legend"
                 },
                 "children": [
                     {
                         "element": "lni-name-input",
                         "attributes": {
-                            "id": 2,
                             "model": "userName",
                             "readonly": true,
                             "disabled": true
@@ -26,7 +23,6 @@
                     {
                         "element": "lni-checkbox",
                         "attributes": {
-                            "id": 1,
                             "label": "Company Name is visible",
                             "model": "companyNameIsVisible",
                             "default": true
@@ -35,7 +31,6 @@
                     {
                         "element": "lni-textbox",
                         "attributes": {
-                            "id": 1,
                             "inputType": "text",
                             "label": "Company Name",
                             "model": "name",
@@ -50,7 +45,6 @@
                     {
                         "element": "lni-checkbox",
                         "attributes": {
-                            "id": 1,
                             "label": "Boss Name is visible",
                             "model": "bossNameIsVisible",
                             "default": true
@@ -59,7 +53,6 @@
                     {
                         "element": "lni-textbox",
                         "attributes": {
-                            "id": 1,
                             "inputType": "text",
                             "label": "Boss Name",
                             "model": "bossName",
@@ -74,7 +67,6 @@
                     {
                         "element": "lni-textbox",
                         "attributes": {
-                            "id": 1,
                             "inputType": "password",
                             "label": "Password",
                             "model": "password",
@@ -87,7 +79,6 @@
                     {
                         "element": "lni-textbox",
                         "attributes": {
-                            "id": 1,
                             "inputType": "number",
                             "label": "Age",
                             "model": "age",
@@ -98,7 +89,6 @@
                     {
                         "element": "lni-textbox",
                         "attributes": {
-                            "id": 1,
                             "inputType": "email",
                             "label": "E-mail",
                             "model": "email",
@@ -109,7 +99,6 @@
                     {
                         "element": "lni-checklist",
                         "attributes": {
-                            "id": 1,
                             "label": "Skills",
                             "model": "skills",
                             "multi": true,
@@ -129,7 +118,6 @@
                     {
                         "element": "lni-submit",
                         "attributes": {
-                            "id": 1,
                             "inputName": "test input Name",
                             "buttonText": "Submit"
                         }

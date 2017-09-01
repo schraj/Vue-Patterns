@@ -1,11 +1,9 @@
 <template>
 	<fieldset>
-		<legend>{{nodeSchema.attributes.legend}}</legend>
+		<legend>{{nodeSchema.attributes.label}}</legend>
 		<template v-for="node in tree">
 			<template v-if="availableComponents.indexOf(getElementType(node.element)) !== -1">
-				<!-- {{node.element}} {{getElementType(node.element)}}
-					<br/> -->
-				<component :is="getElementType(node.element)" :key="tree.indexOf(node)" :tree="node.children" :nodeSchema="node" :formData="formData" :formOptions="formOptions">
+				<component :is="getElementType(node.element)" :id="getFieldId(node)" :key="tree.indexOf(node)" :tree="node.children" :nodeSchema="node" :formData="formData" :formOptions="formOptions">
 				</component>
 			</template>
 			<template v-else>

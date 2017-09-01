@@ -3,7 +3,7 @@
 		<form class="lni-c-form">
 			<template v-for="node in tree">
 				<template v-if="availableComponents.indexOf(getElementType(node.element)) !== -1">
-					<component :is="getElementType(node.element)" :key="tree.indexOf(node)" :tree="node.children" :nodeSchema="node" :formData="formData" :formOptions="formOptions">
+					<component :is="getElementType(node.element)" :id="getFieldId(node)" :key="tree.indexOf(node)" :tree="node.children" :nodeSchema="node" :formData="formData" :formOptions="formOptions">
 					</component>
 				</template>
 				<template v-else>
