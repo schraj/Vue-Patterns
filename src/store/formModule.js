@@ -11,11 +11,8 @@ export default {
       state.form = form;
     },
     RESET_FORM: (state, { }) => {
-      state.form.formData = {};
-    },
-    UPDATE_FORM: (state, paramObject) => {
-      state.form.formData[paramObject.key] = paramObject.value;
-    },
+      // state.form.formData = {};
+    }
   },
   getters: {
     getFormStore: (state) => {

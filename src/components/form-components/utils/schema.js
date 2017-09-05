@@ -1,4 +1,4 @@
-import { get, set, each, isObject, isArray, isFunction, cloneDeep } from "lodash";
+import { get, set, each, isObject, isFunction, cloneDeep } from "lodash";
 let exports = {};
 
 // Create a new model by schema default values
@@ -7,7 +7,7 @@ exports.createDefaultObject = function (schema, obj = {}) {
 		if (get(obj, field.model) === undefined && field.default !== undefined) {
 			if (isFunction(field.default)) {
 				set(obj, field.model, field.default(field, schema, obj));
-			} else if (isObject(field.default) || isArray(field.default)) {
+			} else if (isObject(field.default) || Array.isArray(field.default)) {
 				set(obj, field.model, cloneDeep(field.default));
 			} else
 				set(obj, field.model, field.default);

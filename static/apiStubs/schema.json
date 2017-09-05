@@ -1,5 +1,4 @@
 {
-    "formData": {},
     "schema": {
         "element": "lni-form",
         "attributes": {
@@ -17,7 +16,10 @@
                         "attributes": {
                             "model": "userName",
                             "readonly": true,
-                            "disabled": true
+                            "disabled": true,
+                            "values": [
+                                {"propertyName": "userName", "propertyValue": ""}
+                            ]
                         }
                     },
                     {
@@ -25,7 +27,10 @@
                         "attributes": {
                             "label": "Company Name is visible",
                             "model": "companyNameIsVisible",
-                            "default": true
+                            "default": true,
+                            "values": [
+                                {"propertyName": "companyNameIsVisible", "propertyValue": ""}
+                            ]
                         }
                     },
                     {
@@ -33,13 +38,16 @@
                         "attributes": {
                             "inputType": "text",
                             "label": "Company Name",
-                            "model": "name",
+                            "model": "companyName",
                             "readonly": false,
                             "required": true,
                             "disabled": false,
                             "placeholder": "Company name",
                             "validator": "VueFormGenerator.validators.string",
-                            "dependsOnValue": "{\"companyNameIsVisible\":true}"
+                            "dependsOnValue": "{\"companyNameIsVisible\":true}",
+                            "values": [
+                                {"propertyName": "companyName", "propertyValue": ""}
+                            ]
                         }
                     },
                     {

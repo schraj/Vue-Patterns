@@ -1,4 +1,4 @@
-import { get as objGet, isNil, each, isFunction, isString, isArray } from "lodash";
+import { get as objGet, isNil, each, isFunction, isString } from "lodash";
 import validators from "./utils/validators";
 import customValidators from "./utils/customValidators";
 import customFunctions from "./utils/customFunctions";
@@ -35,10 +35,8 @@ function convertFunction(customFunction) {
 
 export default {
 	props: [
-		"formData",
 		"tree",
 		"nodeSchema",
-		"formOptions",
 		"disabled"
 	],
 
@@ -52,20 +50,20 @@ export default {
 		isVisible: {
 			get() {
 				let visible = true;
-				if (this.nodeSchema.attributes.dependsOnValue) {
-					const dep = JSON.parse(this.nodeSchema.attributes.dependsOnValue);
-					Object.keys(dep).forEach(k => {
-						if (dep[k] != this.formData[k]) {
-							visible = false;
-						}
-					});
-				} else if (this.nodeSchema.attributes.dependsOnFunction) {
-					let func = convertFunction(this.nodeSchema.attributes.dependsOnFunction);
-					if (func) {
-						let customVisibiltyFunc = func.bind(this);
-						visible = customVisibiltyFunc(this.formData);
-					}
-				}
+				// if (this.nodeSchema.attributes.dependsOnValue) {
+				// 	const dep = JSON.parse(this.nodeSchema.attributes.dependsOnValue);
+				// 	Object.keys(dep).forEach(k => {
+				// 		if (dep[k] != this.formData[k]) {
+				// 			visible = false;
+				// 		}
+				// 	});
+				// } else if (this.nodeSchema.attributes.dependsOnFunction) {
+				// 	let func = convertFunction(this.nodeSchema.attributes.dependsOnFunction);
+				// 	if (func) {
+				// 		let customVisibiltyFunc = func.bind(this);
+				// 		visible = customVisibiltyFunc(this.formData);
+				// 	}
+				// }
 				return visible;
 			}
 		},
@@ -73,11 +71,20 @@ export default {
 			cache: false,
 			get() {
 				let val;
-				if (isFunction(this.nodeSchema.attributes.get))
-					val = this.nodeSchema.attributes.get(this.formData);
-
-				else if (this.formData && this.nodeSchema.attributes.model)
-					val = objGet(this.formData, this.nodeSchema.attributes.model);
+				if (isFunction(this.nodeSchema.attributes.get)) {
+					//val = this.nodeSchema.attributes.get(this.formData);
+				}
+				else if (this.nodeSchema.attributes.model) {
+					if (!this.nodeSchema.values) {
+						this.nodeSchema.values = [];
+						this.nodeSchema.values.push({
+							propertyName: this.nodeSchema.attributes.model,
+							propertyValue: '',
+						});
+					}
+					// TODO: handle multiple values
+					val = this.nodeSchema.values[0].propertyValue;
+				}
 
 				if (isFunction(this.formatValueToField))
 					val = this.formatValueToField(val);
@@ -97,13 +104,11 @@ export default {
 					changed = true;
 
 				} else if (this.nodeSchema.attributes.model) {
-					this.setModelValueByPath(this.nodeSchema.attributes.model, newValue);
+					this.setModelValue(newValue);
 					changed = true;
 				}
 
 				if (changed) {
-					this.$store.commit('UPDATE_FORM', { key: this.nodeSchema.attributes.model, value: newValue });
-
 					if (isFunction(this.nodeSchema.attributes.onChanged)) {
 						this.nodeSchema.onChanged.call(this, this.formData, newValue, oldValue, this.nodeSchema);
 					}
@@ -127,6 +132,21 @@ export default {
 			}
 		},
 
+		// TODO: handle multiple values
+		setModelValue(value) {
+			// if (!this.nodeSchema.values) {
+			// 	if (!this.nodeSchema.values) {
+			// 		this.nodeSchema.values = [];
+			// 		this.nodeSchema.values.push({
+			// 			propertyName: this.nodeSchema.attributes.model,
+			// 			propertyValue: '',
+			// 		});
+			// 	}
+			// }
+
+			this.nodeSchema.values[0].propertyValue = value;
+		},
+
 		// Get style classes of field
 		getFieldRowClasses(field) {
 			const hasErrors = this.fieldErrors(field).length > 0;
@@ -148,7 +168,7 @@ export default {
 			// 	}
 			// }
 
-			// if (isArray(field.styleClasses)) {
+			// if (Array.isArray(field.styleClasses)) {
 			// 	each(field.styleClasses, (c) => baseClasses[c] = true);
 			// }
 			// else if (isString(field.styleClasses)) {
@@ -208,13 +228,13 @@ export default {
 			return res.map(item => item.error);
 		},
 
-		validate(calledParent) {
+		validate() {
 			this.clearValidationErrors();
 
 			if (this.nodeSchema.validator && this.nodeSchema.readonly !== true && this.disabled !== true) {
 
 				let validators = [];
-				if (!isArray(this.nodeSchema.validator)) {
+				if (!Array.isArray(this.nodeSchema.validator)) {
 					validators.push(convertValidator(this.nodeSchema.validator).bind(this));
 				} else {
 					each(this.nodeSchema.validator, (validator) => {
@@ -224,7 +244,7 @@ export default {
 
 				each(validators, (validator) => {
 					let addErrors = err => {
-						if (isArray(err))
+						if (Array.isArray(err))
 							Array.prototype.push.apply(this.errors, err);
 						else if (isString(err))
 							this.errors.push(err);
@@ -262,39 +282,6 @@ export default {
 		clearValidationErrors() {
 			this.errors.splice(0);
 		},
-
-		setModelValueByPath(path, value) {
-			// convert array indexes to properties
-			let s = path.replace(/\[(\w+)\]/g, ".$1");
-
-			// strip a leading dot
-			s = s.replace(/^\./, "");
-
-			let o = this.formData;
-			const a = s.split(".");
-			let i = 0;
-			const n = a.length;
-			while (i < n) {
-				let k = a[i];
-				if (i < n - 1)
-					if (o[k] !== undefined) {
-						// Found parent property. Step in
-						o = o[k];
-					} else {
-						// Create missing property (new level)
-						this.$root.$set(o, k, {});
-						o = o[k];
-					}
-				else {
-					// Set final property value
-					this.$root.$set(o, k, value);
-					return;
-				}
-
-				++i;
-			}
-		},
-
 		getFieldId(nodeSchema) {
 			return schemaUtils.slugifyFormID(nodeSchema);
 		}

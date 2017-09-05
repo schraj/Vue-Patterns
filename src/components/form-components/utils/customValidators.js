@@ -1,4 +1,4 @@
-import { defaults, isNil, isNumber, isString, isArray, isFunction } from "lodash";
+import { defaults, isNil, isNumber, isString } from "lodash";
 import fecha from "fecha";
 
 let customResources = {
@@ -16,7 +16,7 @@ let exports = {
 
 Object.keys(exports).forEach(name => {
 	const fn = exports[name];
-	if (isFunction(fn)) {
+	if (typeof fn === 'function') {
 		fn.locale = customMessages => (value, field, model) => fn(value, field, model, defaults(customMessages, resources));
 	}
 });

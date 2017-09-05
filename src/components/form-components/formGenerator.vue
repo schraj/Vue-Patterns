@@ -1,13 +1,13 @@
 <template>
 	<div class="form-generator" v-if="schema">
-		<lniDynamic :tree="schema.children" :nodeSchema="schema" :formData="formData" :formOptions="options">
+		<lniDynamic :tree="schema.children" :nodeSchema="schema">
 		</lniDynamic>
 	</div>
 </template>
 
 
 <script>
-import { isFunction, isNil, isArray, isString } from "lodash";
+import { isNil, isString } from "lodash";
 import schemaUtils from "./utils/schema";
 import lniDynamic from './lniDynamic';
 
@@ -18,21 +18,6 @@ export default {
 
 	props: {
 		schema: Object,
-
-		formData: Object,
-
-		options: {
-			type: Object,
-			default() {
-				return {
-					validateAfterLoad: false,
-					validateAfterChanged: false,
-					validationErrorClass: "error",
-					validationSuccessClass: "",
-				};
-			}
-		},
-
 		isNewModel: {
 			type: Boolean,
 			default: false
@@ -41,26 +26,14 @@ export default {
 
 	data() {
 		return {
-			errors: [] // Validation errors
 		};
 	},
 
 	computed: {
-		// fields() {
-		// 	let res = [];
-		// 	if (this.nodeSchema && this.nodeSchema.children) {
-		// 		each(this.nodeSchema.children, (field) => {
-		// 			if (!this.multiple || field.multi === true)
-		// 				res.push(field);
-		// 		});
-		// 	}
-
-		// 	return res;
-		// },
 	},
 
 	watch: {
-		// new model loaded
+		// // new model loaded
 		// model: function(newModel, oldModel) {
 		// 	if (oldModel == newModel) // model property changed, skip
 		// 		return;
@@ -91,10 +64,6 @@ export default {
 	},
 
 	methods: {
-		// buttonClickHandler(btn, field, event) {
-		// 	return btn.onclick.call(this, this.model, field, event, this);
-		// },
-
 		// Child field executed validation
 		// onFieldValidated(res, errors, field) {
 		// 	// Remove old errors for this field
@@ -142,10 +111,6 @@ export default {
 		// 	// each(this.$children, (child) => {
 		// 	// 	child.clearValidationErrors();
 		// 	// });
-		// },
-
-		// modelUpdated(newVal, schema) {
-		// 	//this.$emit("model-updated", newVal, schema);
 		// },
 	}
 };
