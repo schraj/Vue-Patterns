@@ -1,7 +1,7 @@
 <template>
 	<div class="form-generator" v-if="schema">
-		<lni-form :tree="schema.children" :nodeSchema="schema" :formData="formData" :formOptions="options">
-		</lni-form>
+		<lniDynamic :tree="schema.children" :nodeSchema="schema" :formData="formData" :formOptions="options">
+		</lniDynamic>
 	</div>
 </template>
 
@@ -9,8 +9,13 @@
 <script>
 import { isFunction, isNil, isArray, isString } from "lodash";
 import schemaUtils from "./utils/schema";
+import lniDynamic from './lniDynamic';
 
 export default {
+	components: {
+		lniDynamic
+	},
+
 	props: {
 		schema: Object,
 
