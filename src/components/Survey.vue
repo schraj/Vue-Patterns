@@ -1,6 +1,6 @@
 <template>
   <div class='panel-body'>
-    <formGenerator :schema="formStore.schema" :formData="formStore.formData" />
+    <formGenerator :schema="formStore.schema" />
   </div>
 </template>
 

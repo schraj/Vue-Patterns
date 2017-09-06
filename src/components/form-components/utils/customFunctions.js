@@ -1,5 +1,5 @@
 export default {
-	bossNameIsVisible(model) {
-		// return model.bossNameIsVisible;
+	bossNameIsVisible(manifest) {
+		return manifest.bossNameIsVisible;
 	},
 }

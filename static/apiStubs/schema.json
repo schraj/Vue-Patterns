@@ -43,7 +43,6 @@
                             "required": true,
                             "disabled": false,
                             "placeholder": "Company name",
-                            "validator": "VueFormGenerator.validators.string",
                             "dependsOnValue": "{\"companyNameIsVisible\":true}",
                             "values": [
                                 {"propertyName": "companyName", "propertyValue": ""}
@@ -68,7 +67,6 @@
                             "required": true,
                             "disabled": false,
                             "placeholder": "Boss name",
-                            "validator": "VueFormGenerator.validators.string",
                             "dependsOnFunction": "bossNameIsVisible"
                         }
                     },
@@ -80,8 +78,7 @@
                             "model": "password",
                             "min": 6,
                             "required": true,
-                            "hint": "Minimum 6 characters",
-                            "validator": "VueFormGenerator.validators.string"
+                            "hint": "Minimum 6 characters"
                         }
                     },
                     {
@@ -90,8 +87,7 @@
                             "inputType": "number",
                             "label": "Age",
                             "model": "age",
-                            "min": 18,
-                            "validator": "VueFormGenerator.validators.number"
+                            "min": 18
                         }
                     },
                     {
@@ -100,8 +96,7 @@
                             "inputType": "email",
                             "label": "E-mail",
                             "model": "email",
-                            "placeholder": "User's e-mail address",
-                            "validator": "VueFormGenerator.validators.email"
+                            "placeholder": "User's e-mail address"
                         }
                     },
                     {

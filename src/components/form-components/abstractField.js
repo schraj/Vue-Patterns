@@ -1,5 +1,4 @@
 import { get as objGet, isNil, each, isFunction, isString } from "lodash";
-import validators from "./utils/validators";
 import customValidators from "./utils/customValidators";
 import customFunctions from "./utils/customFunctions";
 import schemaUtils from "./utils/schema";
@@ -50,20 +49,13 @@ export default {
 		isVisible: {
 			get() {
 				let visible = true;
-				// if (this.nodeSchema.attributes.dependsOnValue) {
-				// 	const dep = JSON.parse(this.nodeSchema.attributes.dependsOnValue);
-				// 	Object.keys(dep).forEach(k => {
-				// 		if (dep[k] != this.formData[k]) {
-				// 			visible = false;
-				// 		}
-				// 	});
-				// } else if (this.nodeSchema.attributes.dependsOnFunction) {
-				// 	let func = convertFunction(this.nodeSchema.attributes.dependsOnFunction);
-				// 	if (func) {
-				// 		let customVisibiltyFunc = func.bind(this);
-				// 		visible = customVisibiltyFunc(this.formData);
-				// 	}
-				// }
+				if (this.nodeSchema.attributes.dependsOnFunction) {
+					let func = convertFunction(this.nodeSchema.attributes.dependsOnFunction);
+					if (func) {
+						let customVisibilityFunc = func.bind(this);
+						visible = customVisibilityFunc(this.$store.state.formModule);
+					}
+				}
 				return visible;
 			}
 		},

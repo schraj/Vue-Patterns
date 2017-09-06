@@ -8,7 +8,9 @@ import formModule from "./formModule";
 
 Vue.use(Vuex);
 
-const state = {}
+const state = {
+  count: 0,
+}
 
 export default new Vuex.Store({
   modules: {
@@ -17,5 +19,6 @@ export default new Vuex.Store({
   state,
   actions,
   mutations,
-  getters
+  getters,
+  strict: process.env.NODE_ENV !== 'production'
 });
